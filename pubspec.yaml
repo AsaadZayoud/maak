@@ -39,6 +39,11 @@ dependencies:
   table_calendar: ^3.0.0
   intl:
   flutter_calendar_carousel:
+  google_maps_flutter:
+  location:
+  geolocator:
+  geocoding:
+  geocoder:
 dev_dependencies:
   flutter_test:
     sdk: flutter

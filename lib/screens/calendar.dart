@@ -81,7 +81,7 @@ class _CalendarState extends State<Calendar> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${DateFormat('MMMM').format(_focusedDay)} ${_focusedDay.year}',
+                      '${DateFormat('MMMM').format(_focusedDay)}${_focusedDay.year}',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
@@ -213,14 +213,20 @@ class _CalendarState extends State<Calendar> {
                           return ListView.builder(
                             itemBuilder: (ctx, index) {
                               return GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+
+
+                                    Utils.NavigatorKey.currentState!.pushReplacementNamed('/map');
+
+
+                                },
                                 child: Container(
                                   padding: EdgeInsets.all(8),
                                   child: ServiceWidget(
                                     title: snapshot.data![index].title,
                                     color: snapshot.data![index].color,
                                     subtitle:
-                                        '''${DateFormat.yMMMMd('en_US').format(_selectedDay)}\n${DateFormat('hh:mm a').format(_selectedDay)}
+                                        '''${  DateFormat.yMMMMd('en_US').format(_selectedDay) }\n${DateFormat('hh:mm a').format(_selectedDay)}
                                   ''',
                                     svg: snapshot.data![index].svg,
                                     isDetails: true,

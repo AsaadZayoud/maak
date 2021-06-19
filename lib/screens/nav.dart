@@ -3,6 +3,7 @@ import 'package:maak/models/service.dart';
 import 'package:maak/providers/service_provider.dart';
 import 'package:maak/providers/utils.dart';
 import 'package:maak/screens/home.dart';
+import 'package:maak/screens/map.dart';
 import 'package:maak/screens/search.dart';
 import 'package:maak/screens/tab_screen.dart';
 import 'package:maak/widgets/ads_list.dart';
@@ -34,7 +35,9 @@ class Nav extends StatelessWidget {
           case '/calendar':
             page = Calendar();
             break;
-
+          case '/map':
+            page = Maploc();
+            break;
           default:
             page = Container();
             break;
