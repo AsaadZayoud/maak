@@ -61,8 +61,7 @@ class _CalendarState extends State<Calendar> {
       child: Column(
         children: [
           TableCalendar(
-               locale:lan.isEn ? 'us' : 'ar',
-
+            locale: lan.isEn ? 'en' : 'ar',
             calendarStyle: CalendarStyle(
               canMarkersOverflow: true,
             ),
@@ -86,9 +85,12 @@ class _CalendarState extends State<Calendar> {
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                    IconButton(onPressed: () {
-                      Utils.NavigatorKey.currentState!.pushReplacementNamed('/search');
-                    }, icon: Icon(Icons.search)),
+                    IconButton(
+                        onPressed: () {
+                          Utils.NavigatorKey.currentState!
+                              .pushReplacementNamed('/search');
+                        },
+                        icon: Icon(Icons.search)),
                   ],
                 );
               },
@@ -198,7 +200,6 @@ class _CalendarState extends State<Calendar> {
                   child: FutureBuilder<List<ServiceDetails>>(
                     future: _futureAvailable,
                     builder: (context, AsyncSnapshot snapshot) {
-                    
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
                           child: CircularProgressIndicator(),
