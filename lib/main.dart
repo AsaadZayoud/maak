@@ -4,6 +4,7 @@ import 'package:maak/models/profile.dart';
 import 'package:maak/providers/auth_provider.dart';
 import 'package:maak/providers/call_us.dart';
 import 'package:maak/providers/language_provider.dart';
+import 'package:maak/providers/profile_provider.dart';
 import 'package:maak/providers/setting_provider.dart';
 import 'package:maak/providers/utils.dart';
 import 'package:maak/screens/about_application.dart';
@@ -53,6 +54,9 @@ void main() async{
       ),
       ChangeNotifierProvider<CallUsProvider>(
         create: (context) => CallUsProvider(),
+      ),
+      ChangeNotifierProvider<ProfileProvider>(
+        create: (context) => ProfileProvider(),
       ),
     ],
     child: MyApp(homeScreen),

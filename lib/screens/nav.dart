@@ -3,6 +3,7 @@ import 'package:maak/models/service.dart';
 import 'package:maak/providers/service_provider.dart';
 import 'package:maak/providers/utils.dart';
 import 'package:maak/screens/home.dart';
+import 'package:maak/screens/login/login.dart';
 import 'package:maak/screens/map.dart';
 import 'package:maak/screens/search.dart';
 import 'package:maak/screens/tab_screen.dart';
@@ -12,6 +13,7 @@ import 'package:maak/widgets/service_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'calendar.dart';
+import 'login/otp.dart';
 
 class Nav extends StatelessWidget {
   static const routeName = '/nav';
@@ -37,6 +39,9 @@ class Nav extends StatelessWidget {
             break;
           case '/map':
             page = Maploc();
+            break;
+          case '/Body':
+            page = Body();
             break;
           default:
             page = Container();

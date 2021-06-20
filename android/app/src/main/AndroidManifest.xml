@@ -5,7 +5,9 @@
    <application
         android:label="maak"
         android:icon="@mipmap/ic_launcher">
-        <activity
+       <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A"/>
+
+       <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -40,6 +42,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-       <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A"/>
     </application>
 </manifest>
