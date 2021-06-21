@@ -44,6 +44,7 @@ dependencies:
   geolocator:
   geocoding:
   geocoder:
+  google_map_location_picker:
 dev_dependencies:
   flutter_test:
     sdk: flutter

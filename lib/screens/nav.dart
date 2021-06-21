@@ -38,10 +38,13 @@ class Nav extends StatelessWidget {
             page = Calendar();
             break;
           case '/map':
-            page = Maploc();
+            page = LocationmapPage();
             break;
           case '/Body':
             page = Body();
+            break;
+          case '/otp':
+            page = OtpForm();
             break;
           default:
             page = Container();

@@ -1,197 +1,319 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
-import 'package:geocoder/geocoder.dart';
-import 'package:intl/intl.dart';
+
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+
+
+import 'dart:ui' as ui;
+
 import 'package:maak/providers/utils.dart';
 
-class Maploc extends StatefulWidget {
+
+
+class LocationmapPage extends StatefulWidget {
+  LocationData? locationData;
+  LocationmapPage({this.locationData});
   @override
-  _MyLocationState createState() => _MyLocationState();
+  LocationmapPageBody createState() => LocationmapPageBody();
 }
 
-class _MyLocationState extends State<Maploc> {
-  LocationData? _currentPosition;
-  String _address = '';
-  String _dateTime = '';
+class LocationmapPageBody extends State<LocationmapPage> {
+  double widthscreen = 0;
+  double heightscreen = 0;
+  String locationTex = '';
 
-  Marker? marker;
-  Location location = Location();
 
-  GoogleMapController? _controller;
-  LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
-  var animateCamera;
-  var currentLocation;
-  @override
-  void initState() {
-    getLoc();
-    // TODO: implement initState
-    super.initState();
-  }
 
-  @override
-  void dispose() {
-    animateCamera.cancel();
-    currentLocation.cancel();
-    _controller!.dispose();
-    // TODO: implement dispose
-    super.dispose();
-  }
 
-  void _onMapCreated(GoogleMapController _cntlr) {
+  //Locationn loc;
+
+  String val = '';
+
+  Completer<GoogleMapController>? _controller;
+  static LatLng _center = const LatLng(45.521563, -122.677433);
+  LatLng _lastMapPosition = _center;
+   LatLng temp = _center;
+  final Set<Marker> _markers = {};
+  MapType _currentMapType = MapType.normal;
+  void _onMapTypeButtonPressed() {
     setState(() {
-      _controller = _cntlr;
+      _currentMapType = _currentMapType == MapType.normal
+          ? MapType.satellite
+          : MapType.normal;
     });
+  }
 
-    animateCamera = location.onLocationChanged.listen((l) {
-      _controller?.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
+
+
+
+  void _onCameraMove(CameraPosition position) {
+
+
+    setState(() {
+
+      _lastMapPosition = position.target;
+
+
+    });
+  }
+
+  void _onAddMarkerButtonPressed() {
+
+    _markers.clear();
+
+    setState(() {
+
+
+
+
+
+
+      _markers.add(
+        Marker(
+          // This marker id can be anything that uniquely identifies each marker.
+          markerId: MarkerId(_lastMapPosition.toString()),
+
+          position: _lastMapPosition,
+
+          infoWindow: InfoWindow(
+
+            // snippet: val.toString(),
+          ),
+          //  icon: await getMarkerIcon(img, Size(150.0, 150.0))
         ),
       );
+
     });
+  }
+
+  Future<ui.Image> getImageFromPath(String imagePath) async {
+    File imageFile = File(imagePath);
+
+    Uint8List imageBytes = imageFile.readAsBytesSync();
+
+    final Completer<ui.Image> completer = new Completer();
+
+    ui.decodeImageFromList(imageBytes, (ui.Image img) {
+      return completer.complete(img);
+    });
+
+    return completer.future;
+  }
+
+  Future<BitmapDescriptor> getMarkerIcon(String imagePath, Size size) async {
+    final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+    final Canvas canvas = Canvas(pictureRecorder);
+
+    final Radius radius = Radius.circular(size.width / 2);
+
+    final Paint tagPaint = Paint()..color = Colors.blue;
+    final double tagWidth = 40.0;
+
+    final Paint shadowPaint = Paint()..color = Colors.blue.withAlpha(100);
+    final double shadowWidth = 15.0;
+
+    final Paint borderPaint = Paint()..color = Colors.white;
+    final double borderWidth = 3.0;
+
+    final double imageOffset = shadowWidth + borderWidth;
+
+    // Add shadow circle
+    canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(0.0, 0.0, size.width, size.height),
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius,
+        ),
+        shadowPaint);
+
+    // Add border circle
+    canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(shadowWidth, shadowWidth,
+              size.width - (shadowWidth * 2), size.height - (shadowWidth * 2)),
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius,
+        ),
+        borderPaint);
+
+    // Add tag circle
+    canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(size.width - tagWidth, 0.0, tagWidth, tagWidth),
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius,
+        ),
+        tagPaint);
+
+    // Add tag text
+    TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
+    textPainter.text = TextSpan(
+      text: '1',
+      style: TextStyle(fontSize: 20.0, color: Colors.white),
+    );
+
+    textPainter.layout();
+    textPainter.paint(
+        canvas,
+        Offset(size.width - tagWidth / 2 - textPainter.width / 2,
+            tagWidth / 2 - textPainter.height / 2));
+
+    // Oval for the image
+    Rect oval = Rect.fromLTWH(imageOffset, imageOffset,
+        size.width - (imageOffset * 2), size.height - (imageOffset * 2));
+
+    // Add path for oval image
+    canvas.clipPath(Path()..addOval(oval));
+
+    // Add image
+    ui.Image image = await getImageFromPath(
+        imagePath); // Alternatively use your own method to get the image
+    // ui.Image image = await getUiImage(imagePath, 50, 50);
+    paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.fitWidth);
+
+    // Convert canvas to image
+    final ui.Image markerAsImage = await pictureRecorder
+        .endRecording()
+        .toImage(size.width.toInt(), size.height.toInt());
+
+    // Convert image to bytes
+    final ByteData? byteData =
+    await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List uint8List = byteData!.buffer.asUint8List();
+
+    return BitmapDescriptor.fromBytes(uint8List);
+  }
+
+
+
+
+  @override
+  initState() {
+    _center = LatLng(widget.locationData!.latitude, widget.locationData!.longitude);
+
+    _markers.add(
+      Marker(
+        // This marker id can be anything that uniquely identifies each marker.
+        markerId: MarkerId(_lastMapPosition.toString()),
+        position: _center ,
+        infoWindow: InfoWindow(
+          //  title: title,
+          snippet: val.toString(),
+        ),
+      ),
+
+    );
+    super.initState();
+    // Add listeners to this class
+
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/images/world.jpg'), fit: BoxFit.fill),
-      ),
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: SafeArea(
-        child: Container(
-          color: Colors.blueGrey.withOpacity(.8),
-          child: Center(
-            child: Stack(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  child: GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                        target: _initialcameraposition, zoom: 15),
-                    mapType: MapType.normal,
-                    onMapCreated: _onMapCreated,
-                    myLocationEnabled: true,
-                  ),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                if (_dateTime != null)
-                  Text(
-                    "Date/Time: $_dateTime",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                SizedBox(
-                  height: 3,
-                ),
-                if (_currentPosition != null)
-                  Text(
-                    "Latitude: ${_currentPosition?.latitude}, Longitude: ${_currentPosition?.longitude}",
-                    style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                SizedBox(
-                  height: 3,
-                ),
-                if (_address != null)
-                  Text(
-                    "Address: $_address",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.2,
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Utils.NavigatorKey.currentState!
-                          .pushReplacementNamed('/Body');
+
+    widthscreen = MediaQuery.of(context).size.width;
+    heightscreen = MediaQuery.of(context).size.height;
+    locationTex = "dont location";
+
+    final size = MediaQuery.of(context).size;
+    final deviceRatio = size.width / size.height;
+
+   // LatLng temp = LatLng(widget.temp.lat, widget.temp.lang);
+
+
+    return Scaffold(
+      body: Container(
+        color: Colors.green[400],
+        child: Column(
+          children: [
+            Flexible(
+              flex: 3,
+              child: Stack(
+                children: [
+                  GoogleMap(
+                    mapType: _currentMapType,
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller?.complete(controller);
                     },
-                    child: Text('Next'),
-                    style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 20),
-                        elevation: 5,
-                        fixedSize: Size(MediaQuery.of(context).size.width,
-                            MediaQuery.of(context).size.height * 0.05)),
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 11.0,
+                    ),
+                    // compassEnabled: true,
+                    markers: _markers,
+                    onCameraMove:_onCameraMove,
                   ),
-                )
-              ],
+                  Align(
+                      alignment: Alignment.topRight,
+                      child: FloatingActionButton(
+                        onPressed: _onMapTypeButtonPressed,
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
+                        backgroundColor: Colors.green,
+                        child: const Icon(Icons.map, size: 36.0),
+                      )),
+                  SizedBox(height: 16.0),
+                  Align(
+                    alignment: Alignment.center,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+
+                          _onAddMarkerButtonPressed();
+
+                          print("markerId is" + _lastMapPosition.toString());
+
+
+                        });
+                      },
+                      //   materialTapTargetSize: MaterialTapTargetSize.padded,
+                      //  backgroundColor: Colors.green,
+                      icon: const Icon(
+                        Icons.add_location,
+                        size: 55.0,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
             ),
-          ),
+             Container(
+                 child:ElevatedButton(
+                onPressed: () {
+                  Utils.NavigatorKey.currentState!
+                      .pushReplacementNamed('/otp');
+
+                },
+                child: Text('Next'),
+                style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20),
+                    elevation: 5,
+                    fixedSize: Size(MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.height * 0.06)),
+             )
+             )
+          ],
         ),
+
+        //  clipBehavior: Clip.antiAliasWithSaveLayer,
       ),
     );
   }
 
-  getLoc() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    _currentPosition = await location.getLocation();
-    _initialcameraposition = LatLng(_currentPosition?.latitude ?? 36.1317595,
-        _currentPosition?.longitude ?? 36.1317595);
-    currentLocation =
-        location.onLocationChanged.listen((LocationData currentLocation) {
-      print("${currentLocation.longitude} : ${currentLocation.longitude}");
-      if (mounted) {
-        setState(() {
-          _currentPosition = currentLocation;
-          _initialcameraposition = LatLng(_currentPosition?.latitude ?? 0,
-              _currentPosition?.longitude ?? 0);
-
-          DateTime now = DateTime.now();
-          _dateTime = DateFormat('EEE d MMM kk:mm:ss ').format(now);
-          _getAddress(_currentPosition?.latitude ?? 30,
-                  _currentPosition?.longitude ?? 0)
-              .then((value) {
-            setState(() {
-              _address = "${value.first.addressLine}";
-            });
-          });
-        });
-      }
-    });
-  }
-
-  Future<List<Address>> _getAddress(double lat, double lang) async {
-    final coordinates = new Coordinates(lat, lang);
-    List<Address> add = await Geocoder.local
-        .findAddressesFromCoordinates(coordinates)
-        .catchError((error, stackTrace) {
-      print('error');
-    });
-    return add;
-  }
 }

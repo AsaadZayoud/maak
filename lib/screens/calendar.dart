@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:location/location.dart';
 import 'package:maak/models/service.dart';
 import 'package:maak/models/service_details.dart';
 import 'package:maak/providers/language_provider.dart';
 import 'package:maak/providers/service_provider.dart';
 import 'package:maak/providers/utils.dart';
+import 'package:maak/screens/map.dart';
 import 'package:maak/widgets/service_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -14,7 +16,8 @@ import 'package:intl/intl.dart';
 
 class Calendar extends StatefulWidget {
   static const routeName = 'calendar';
-
+   LocationData? locationData;
+  
   @override
   _CalendarState createState() => _CalendarState();
 }
@@ -29,10 +32,42 @@ class _CalendarState extends State<Calendar> {
 
     super.initState();
   }
-
+  Location location = new Location();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
+  bool _serviceEnabled = false;
+  PermissionStatus? _permissionGranted;
+
+  Future<void> _getUserLocation() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.DENIED) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.GRANTED) {
+
+      }
+    }
+
+    widget.locationData = await location.getLocation();
+    print("vvvv" + widget.locationData.toString());
+    // loc = new Locationn(
+    // axis: _locationData.latitude, yais: _locationData.longitude);
+
+
+
+
+
+
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => home()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,10 +248,13 @@ class _CalendarState extends State<Calendar> {
                           return ListView.builder(
                             itemBuilder: (ctx, index) {
                               return GestureDetector(
-                                onTap: () {
+                                onTap: ()  async{
+                                 await _getUserLocation();
 
+                                    Utils.NavigatorKey.currentState!.pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => LocationmapPage(locationData: widget.locationData,)));
 
-                                    Utils.NavigatorKey.currentState!.pushReplacementNamed('/map');
 
 
                                 },
