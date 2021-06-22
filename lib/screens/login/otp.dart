@@ -1,66 +1,38 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:maak/providers/language_provider.dart';
 import 'package:maak/providers/utils.dart';
+import 'package:provider/provider.dart';
 
 class OtpForm extends StatefulWidget {
+  static const routeName = '/otp';
   @override
   _OtpFormState createState() => _OtpFormState();
 }
 
 class _OtpFormState extends State<OtpForm> {
-  FocusNode? pin2FocusNode;
-  FocusNode? pin3FocusNode;
-  FocusNode? pin4FocusNode;
   String phone = '';
   bool isSend = false;
-  List numbers = [];
-  String numVal = '';
-
+  FocusNode? pin1FocusNode;
   @override
   void initState() {
+    // TODO: implement initState
+    pin1FocusNode = FocusNode();
     super.initState();
-    pin2FocusNode = FocusNode();
-    pin3FocusNode = FocusNode();
-    pin4FocusNode = FocusNode();
   }
 
   @override
   void dispose() {
-    super.dispose();
-    pin2FocusNode?.dispose();
-    pin3FocusNode?.dispose();
-    pin4FocusNode?.dispose();
-  }
+    // TODO: implement dispose
 
-  void nextField(String value, FocusNode focusNode) {
-    if (value.length == 1) {
-      focusNode.requestFocus();
-      numbers.add(value);
-    }
+    pin1FocusNode?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Row buildTimer() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("This code will expired in "),
-          TweenAnimationBuilder(
-            tween: Tween(begin: 30.0, end: 0.0),
-            duration: Duration(seconds: 30),
-            builder: (_, value, child) => Text(
-              "00:${value.toString().substring(0, 2)}",
-              //  style: TextStyle(color: Colors),
-            ),
-            onEnd: () {
-              setState(() {
-                isSend = false;
-              });
-            },
-          ),
-        ],
-      );
-    }
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
 
     void _showToast(BuildContext context, String _text) {
       final scaffold = ScaffoldMessenger.of(context);
@@ -71,163 +43,139 @@ class _OtpFormState extends State<OtpForm> {
       );
     }
 
-    OutlineInputBorder outlineInputBorder() {
-      return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
-        borderSide: BorderSide(color: Colors.black87),
-      );
-    }
-
-    final otpInputDecoration = InputDecoration(
-      contentPadding: EdgeInsets.symmetric(vertical: 15),
-      border: outlineInputBorder(),
-      focusedBorder: outlineInputBorder(),
-      enabledBorder: outlineInputBorder(),
-    );
-
     var SizeConfig = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              SizedBox(height: SizeConfig.height * 0.05),
-              TextFormField(
-                keyboardType: TextInputType.phone,
-                decoration: new InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  SizedBox(height: SizeConfig.height * 0.05),
+                  Container(
+                    child: SvgPicture.asset(
+                      'assets/svg/apple.svg',
+                    ),
                   ),
-                  hintText: "Phone",
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "* Required";
-                  } else
-                    return null;
-                },
-                onChanged: (val) => this.phone = val,
-              ),
-              SizedBox(
-                height: SizeConfig.height * 0.05,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (phone == '') {
-                    _showToast(context, 'Please Insert Number');
-                  } else {
-                    setState(() {
-                      isSend = true;
-                    });
-                  }
-                },
-                child: Text('Send Code'),
-                style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 20),
-                    elevation: 5,
-                    fixedSize: Size(MediaQuery.of(context).size.width * 0.6,
-                        MediaQuery.of(context).size.height * 0.05)),
-              ),
-              SizedBox(
-                height: SizeConfig.height * 0.05,
-              ),
-              isSend
-                  ? Text(
-                      "OTP Verification",
-                    )
-                  : Container(),
-              SizedBox(
-                height: SizeConfig.height * 0.02,
-              ),
-              isSend ? Text("We sent your code to $phone") : Container(),
-              SizedBox(height: SizeConfig.height * 0.02),
-              isSend ? buildTimer() : Container(),
-              SizedBox(
-                height: SizeConfig.height * 0.05,
-              ),
-              isSend
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 60,
-                          child: TextFormField(
-                            obscureText: true,
-                            style: TextStyle(fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            textAlign: TextAlign.center,
-                            decoration: otpInputDecoration,
-                            onChanged: (value) {
-                              nextField(value, pin2FocusNode!);
-                            },
+                  SizedBox(height: SizeConfig.height * 0.05),
+                  Text(
+                    "Login",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline2!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: SizeConfig.height * 0.05),
+                  Text(
+                    '''Login with the number and password you created 
+                      while registering  in the app ''',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  SizedBox(height: SizeConfig.height * 0.05),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(),
+                        width: SizeConfig.width * 0.2,
+                        child: TextFormField(
+                          autofocus: true,
+                          keyboardType: TextInputType.phone,
+                          decoration: new InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                            hintText: "+1",
                           ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "* ${lan.getTexts('required')}";
+                            } else
+                              return null;
+                          },
+                          onChanged: (val) => this.phone = val,
+                          onFieldSubmitted: (val) {
+                            pin1FocusNode!.requestFocus();
+                          },
                         ),
-                        SizedBox(
-                          width: 60,
-                          child: TextFormField(
-                            focusNode: pin2FocusNode,
-                            obscureText: true,
-                            style: TextStyle(fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            textAlign: TextAlign.center,
-                            decoration: otpInputDecoration,
-                            onChanged: (value) =>
-                                nextField(value, pin3FocusNode!),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(),
+                        width: SizeConfig.width * 0.68,
+                        child: TextFormField(
+                          focusNode: pin1FocusNode,
+                          autofocus: true,
+                          keyboardType: TextInputType.phone,
+                          decoration: new InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
+                            ),
+                            hintText: "Number",
                           ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "* ${lan.getTexts('required')}";
+                            } else
+                              return null;
+                          },
+                          onFieldSubmitted: (val) {
+                            pin1FocusNode!.unfocus();
+                          },
+                          onChanged: (val) => this.phone = val,
                         ),
-                        SizedBox(
-                          width: 60,
-                          child: TextFormField(
-                            focusNode: pin3FocusNode,
-                            obscureText: true,
-                            style: TextStyle(fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            textAlign: TextAlign.center,
-                            decoration: otpInputDecoration,
-                            onChanged: (value) =>
-                                nextField(value, pin4FocusNode!),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 60,
-                          child: TextFormField(
-                            focusNode: pin4FocusNode,
-                            obscureText: true,
-                            style: TextStyle(fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            textAlign: TextAlign.center,
-                            decoration: otpInputDecoration,
-                            onChanged: (value) {
-                              if (value.length == 1) {
-                                pin4FocusNode!.unfocus();
-                                numbers.forEach((element) {
-                                  numVal = '$numVal$element';
-                                });
-                                numVal = '$numVal$value';
-
-                                numbers = [];
-
-                                if(int.parse(numVal) == 1234 ){
-                                  Utils.NavigatorKey.currentState!
-                                      .pushReplacementNamed('/Body');
-                                  numVal= '';
-                                }
-                                else {
-
-                                  _showToast(context,'Wrong Number');
-                                  numVal= '';
-                                }
-                                // Then you need to check is the code is correct or not
-                              }
-                            },
-                            onFieldSubmitted: (val) {},
-                          ),
-                        ),
-                      ],
-                    )
-                  : Container(),
-            ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: SizeConfig.height * 0.05,
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints.tightFor(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.08),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Utils.NavigatorKey.currentState!
+                            .pushReplacementNamed('/otpcode');
+                        setState(() {
+                          isSend = false;
+                        });
+                      },
+                      child: Text("Log In"),
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.height * 0.05,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account ?",
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      Text(
+                        "Create account",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .copyWith(color: Theme.of(context).primaryColor),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

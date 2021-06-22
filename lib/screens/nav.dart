@@ -12,8 +12,10 @@ import 'package:maak/widgets/category_list.dart';
 import 'package:maak/widgets/service_widget.dart';
 import 'package:provider/provider.dart';
 
+import 'appointmen_screen.dart';
 import 'calendar.dart';
 import 'login/otp.dart';
+import 'login/otp_code.dart';
 
 class Nav extends StatelessWidget {
   static const routeName = '/nav';
@@ -37,14 +39,20 @@ class Nav extends StatelessWidget {
           case '/calendar':
             page = Calendar();
             break;
-          case '/map':
-            page = LocationmapPage();
+          case '/otp':
+            page = OtpForm();
+            break;
+          case '/otpcode':
+            page = OtbCode();
             break;
           case '/Body':
             page = Body();
             break;
-          case '/otp':
-            page = OtpForm();
+          case '/map':
+            page = LocationmapPage();
+            break;
+          case '/appointmen':
+            page = appointmenScreen();
             break;
           default:
             page = Container();

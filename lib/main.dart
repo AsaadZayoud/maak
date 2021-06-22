@@ -11,6 +11,7 @@ import 'package:maak/screens/about_application.dart';
 import 'package:maak/screens/calendar.dart';
 import 'package:maak/screens/callus.dart';
 import 'package:maak/screens/help.dart';
+import 'package:maak/screens/login/otp.dart';
 import 'package:maak/screens/nav_home.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:maak/screens/on_boarding_screen.dart';
@@ -96,7 +97,8 @@ class MyApp extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           primarySwatch: Colors.blue,
-          accentColor: Colors.blueGrey),
+
+          accentColor: Colors.green),
 
       localizationsDelegates: [
 
@@ -113,6 +115,7 @@ class MyApp extends StatelessWidget {
  //     navigatorKey: Utils.mainNavigatorKey,
       routes: {
         '/' : (ctx) => homeScreen,
+        OtpForm.routeName: (ctx) => OtpForm(),
         NavHome.routeName: (ctx) => NavHome(),
         Nav.routeName: (ctx) => Nav(),
         Setting.routeName: (ctx) => Setting(),

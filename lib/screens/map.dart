@@ -6,16 +6,17 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-
+import 'package:maak/providers/auth_provider.dart';
+import 'package:maak/providers/language_provider.dart';
 
 import 'dart:ui' as ui;
 
 import 'package:maak/providers/utils.dart';
+import 'package:provider/provider.dart';
 
-
+import 'login/otp.dart';
 
 class LocationmapPage extends StatefulWidget {
   LocationData? locationData;
@@ -29,9 +30,6 @@ class LocationmapPageBody extends State<LocationmapPage> {
   double heightscreen = 0;
   String locationTex = '';
 
-
-
-
   //Locationn loc;
 
   String val = '';
@@ -39,7 +37,7 @@ class LocationmapPageBody extends State<LocationmapPage> {
   Completer<GoogleMapController>? _controller;
   static LatLng _center = const LatLng(45.521563, -122.677433);
   LatLng _lastMapPosition = _center;
-   LatLng temp = _center;
+  LatLng temp = _center;
   final Set<Marker> _markers = {};
   MapType _currentMapType = MapType.normal;
   void _onMapTypeButtonPressed() {
@@ -50,31 +48,16 @@ class LocationmapPageBody extends State<LocationmapPage> {
     });
   }
 
-
-
-
   void _onCameraMove(CameraPosition position) {
-
-
     setState(() {
-
       _lastMapPosition = position.target;
-
-
     });
   }
 
   void _onAddMarkerButtonPressed() {
-
     _markers.clear();
 
     setState(() {
-
-
-
-
-
-
       _markers.add(
         Marker(
           // This marker id can be anything that uniquely identifies each marker.
@@ -84,12 +67,11 @@ class LocationmapPageBody extends State<LocationmapPage> {
 
           infoWindow: InfoWindow(
 
-            // snippet: val.toString(),
-          ),
+              // snippet: val.toString(),
+              ),
           //  icon: await getMarkerIcon(img, Size(150.0, 150.0))
         ),
       );
-
     });
   }
 
@@ -191,40 +173,36 @@ class LocationmapPageBody extends State<LocationmapPage> {
 
     // Convert image to bytes
     final ByteData? byteData =
-    await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+        await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8List = byteData!.buffer.asUint8List();
 
     return BitmapDescriptor.fromBytes(uint8List);
   }
 
-
-
-
   @override
   initState() {
-    _center = LatLng(widget.locationData!.latitude, widget.locationData!.longitude);
+    _center =
+        LatLng(widget.locationData!.latitude, widget.locationData!.longitude);
 
     _markers.add(
       Marker(
         // This marker id can be anything that uniquely identifies each marker.
         markerId: MarkerId(_lastMapPosition.toString()),
-        position: _center ,
+        position: _center,
         infoWindow: InfoWindow(
           //  title: title,
           snippet: val.toString(),
         ),
       ),
-
     );
     super.initState();
     // Add listeners to this class
-
-
   }
 
   @override
   Widget build(BuildContext context) {
-
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
+    var isAuth = Provider.of<AuthProvider>(context, listen: true).isAuth;
     widthscreen = MediaQuery.of(context).size.width;
     heightscreen = MediaQuery.of(context).size.height;
     locationTex = "dont location";
@@ -232,88 +210,86 @@ class LocationmapPageBody extends State<LocationmapPage> {
     final size = MediaQuery.of(context).size;
     final deviceRatio = size.width / size.height;
 
-   // LatLng temp = LatLng(widget.temp.lat, widget.temp.lang);
+    // LatLng temp = LatLng(widget.temp.lat, widget.temp.lang);
 
-
-    return Scaffold(
-      body: Container(
-        color: Colors.green[400],
-        child: Column(
-          children: [
-            Flexible(
-              flex: 3,
-              child: Stack(
-                children: [
-                  GoogleMap(
-                    mapType: _currentMapType,
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller?.complete(controller);
-                    },
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 11.0,
-                    ),
-                    // compassEnabled: true,
-                    markers: _markers,
-                    onCameraMove:_onCameraMove,
-                  ),
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: FloatingActionButton(
-                        onPressed: _onMapTypeButtonPressed,
-                        materialTapTargetSize: MaterialTapTargetSize.padded,
-                        backgroundColor: Colors.green,
-                        child: const Icon(Icons.map, size: 36.0),
-                      )),
-                  SizedBox(height: 16.0),
-                  Align(
-                    alignment: Alignment.center,
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-
-                          _onAddMarkerButtonPressed();
-
-                          print("markerId is" + _lastMapPosition.toString());
-
-
-                        });
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          color: Colors.green[400],
+          child: Column(
+            children: [
+              Flexible(
+                flex: 3,
+                child: Stack(
+                  children: [
+                    GoogleMap(
+                      mapType: _currentMapType,
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller?.complete(controller);
                       },
-                      //   materialTapTargetSize: MaterialTapTargetSize.padded,
-                      //  backgroundColor: Colors.green,
-                      icon: const Icon(
-                        Icons.add_location,
-                        size: 55.0,
-                        color: Colors.green,
+                      initialCameraPosition: CameraPosition(
+                        target: _center,
+                        zoom: 11.0,
+                      ),
+                      // compassEnabled: true,
+                      markers: _markers,
+                      onCameraMove: _onCameraMove,
+                    ),
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: FloatingActionButton(
+                          onPressed: _onMapTypeButtonPressed,
+                          materialTapTargetSize: MaterialTapTargetSize.padded,
+                          backgroundColor: Colors.green,
+                          child: const Icon(Icons.map, size: 36.0),
+                        )),
+                    SizedBox(height: 16.0),
+                    Align(
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _onAddMarkerButtonPressed();
+
+                            print("markerId is" + _lastMapPosition.toString());
+                          });
+                        },
+                        //   materialTapTargetSize: MaterialTapTargetSize.padded,
+                        //  backgroundColor: Colors.green,
+                        icon: const Icon(
+                          Icons.add_location,
+                          size: 55.0,
+                          color: Colors.green,
+                        ),
                       ),
                     ),
-                  ),
-
-                ],
+                  ],
+                ),
               ),
-            ),
-             Container(
-                 child:ElevatedButton(
+              Container(
+                  child: ElevatedButton(
                 onPressed: () {
-                  Utils.NavigatorKey.currentState!
-                      .pushReplacementNamed('/otp');
-
+                  if (isAuth) {
+                    Utils.NavigatorKey.currentState!
+                        .pushReplacementNamed('/appointmen');
+                  } else {
+                    Utils.NavigatorKey.currentState!.pushNamedAndRemoveUntil(
+                        '/otp', (Route<dynamic> route) => false);
+                  }
                 },
-                child: Text('Next'),
+                child: Text("${lan.getTexts('next')}"),
                 style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20),
                     elevation: 5,
                     fixedSize: Size(MediaQuery.of(context).size.width,
                         MediaQuery.of(context).size.height * 0.06)),
-             )
-             )
-          ],
-        ),
+              ))
+            ],
+          ),
 
-        //  clipBehavior: Clip.antiAliasWithSaveLayer,
+          //  clipBehavior: Clip.antiAliasWithSaveLayer,
+        ),
       ),
     );
   }
-
-
 }
