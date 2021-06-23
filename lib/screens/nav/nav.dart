@@ -3,7 +3,7 @@ import 'package:maak/models/service.dart';
 import 'package:maak/providers/service_provider.dart';
 import 'package:maak/providers/utils.dart';
 import 'package:maak/screens/home.dart';
-import 'package:maak/screens/login/login.dart';
+import 'package:maak/screens/login/creat_account.dart';
 import 'package:maak/screens/map.dart';
 import 'package:maak/screens/search.dart';
 import 'package:maak/screens/tab_screen.dart';
@@ -12,10 +12,12 @@ import 'package:maak/widgets/category_list.dart';
 import 'package:maak/widgets/service_widget.dart';
 import 'package:provider/provider.dart';
 
-import 'appointmen_screen.dart';
-import 'calendar.dart';
-import 'login/otp.dart';
-import 'login/otp_code.dart';
+import '../appointmen_screen.dart';
+import '../calendar.dart';
+import '../categories_screen.dart';
+import '../login/otp.dart';
+import '../login/otp_code.dart';
+import 'nav_home_date.dart';
 
 class Nav extends StatelessWidget {
   static const routeName = '/nav';
@@ -23,13 +25,18 @@ class Nav extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: Utils.NavigatorKey,
-      initialRoute: '/home',
+      initialRoute: '/navDate',
       onGenerateRoute: (RouteSettings settings) {
         Widget page;
         switch (settings.name) {
-          case '/home':
-            page = Home();
+
+          case '/navDate':
+            page =  navHomeDate();
             break;
+            break;
+          case '/categoriesScreen':
+            page = categoriesScreen();
+          break;
           case '/tabScreen':
             page = TabScreen();
             break;
@@ -45,14 +52,14 @@ class Nav extends StatelessWidget {
           case '/otpcode':
             page = OtbCode();
             break;
-          case '/Body':
-            page = Body();
-            break;
           case '/map':
             page = LocationmapPage();
             break;
           case '/appointmen':
             page = appointmenScreen();
+            break;
+          case '/account':
+            page = createAccount();
             break;
           default:
             page = Container();

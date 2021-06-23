@@ -12,7 +12,7 @@ import 'package:maak/screens/calendar.dart';
 import 'package:maak/screens/callus.dart';
 import 'package:maak/screens/help.dart';
 import 'package:maak/screens/login/otp.dart';
-import 'package:maak/screens/nav_home.dart';
+import 'package:maak/screens/nav/nav_home.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:maak/screens/on_boarding_screen.dart';
 import 'package:maak/screens/privacy_policy.dart';
@@ -28,8 +28,8 @@ import 'package:maak/widgets/category.dart';
 import 'package:maak/widgets/category_list.dart';
 import 'package:provider/provider.dart';
 import 'providers/service_provider.dart';
-import 'screens/nav.dart';
-import 'screens/nav.dart';
+import 'screens/nav/nav.dart';
+import 'screens/nav/nav.dart';
 
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,9 +96,9 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.green,
 
-          accentColor: Colors.green),
+          accentColor: Colors.blue),
 
       localizationsDelegates: [
 

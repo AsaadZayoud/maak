@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'calendar.dart';
 import 'home.dart';
-import 'nav.dart';
+import 'nav/nav.dart';
 
 class TabScreen extends StatefulWidget {
   TabScreen({Key? key}) : super(key: key);
@@ -119,12 +119,20 @@ class _TabScreenState extends State<TabScreen>
                       child: GestureDetector(
                           onTap: () {
                             try {
-                              Utils.NavigatorKey.currentState!
-                                  .popAndPushNamed('/home');
+                              Utils.NavigatorKeyDate.currentState!
+                                  .popAndPushNamed('/categoriesScreen');
                             } catch (error) {
-                              Utils.mainNavigatorKey.currentState!
-                                  .pushReplacementNamed('/tabScreen');
-                            }
+                              try{
+                                Utils.NavigatorKey.currentState!
+                                    .pushReplacementNamed('/navDate');
+                              }
+                              catch(error){
+                                Utils.mainNavigatorKey.currentState!
+                                    .pushReplacementNamed('/tabScreen');
+                              }
+                              }
+
+
                           },
                           child: Image.asset('assets/images/home_icon_1.png'))),
                   Tab(

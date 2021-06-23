@@ -5,17 +5,21 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geocoder/model.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:maak/providers/auth_provider.dart';
 import 'package:maak/providers/language_provider.dart';
-
+import "dart:async";
+import "package:google_maps_webservice/places.dart";
+import "package:flutter_google_places/flutter_google_places.dart";
 import 'dart:ui' as ui;
 
 import 'package:maak/providers/utils.dart';
 import 'package:provider/provider.dart';
-
 import 'login/otp.dart';
 
 class LocationmapPage extends StatefulWidget {
@@ -29,7 +33,7 @@ class LocationmapPageBody extends State<LocationmapPage> {
   double widthscreen = 0;
   double heightscreen = 0;
   String locationTex = '';
-
+  Coordinates coordinates = Coordinates(0, 0);
   //Locationn loc;
 
   String val = '';
@@ -40,6 +44,8 @@ class LocationmapPageBody extends State<LocationmapPage> {
   LatLng temp = _center;
   final Set<Marker> _markers = {};
   MapType _currentMapType = MapType.normal;
+
+  GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: " AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A");
   void _onMapTypeButtonPressed() {
     setState(() {
       _currentMapType = _currentMapType == MapType.normal
@@ -56,7 +62,7 @@ class LocationmapPageBody extends State<LocationmapPage> {
 
   void _onAddMarkerButtonPressed() {
     _markers.clear();
-
+    getaddress();
     setState(() {
       _markers.add(
         Marker(
@@ -178,9 +184,58 @@ class LocationmapPageBody extends State<LocationmapPage> {
 
     return BitmapDescriptor.fromBytes(uint8List);
   }
+  Future<String> getaddress() async {
+     coordinates = await new Coordinates(_lastMapPosition.latitude, _lastMapPosition.longitude);
+    var addresses =
+    await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    locationTex = " ${first.addressLine}";
+
+    print("${first.postalCode } : ${first.addressLine}");
+    return "${first.featureName}";
+  }
+
+  Future<void> handlePressButton() async {
+    try {
+
+      Prediction? p = await PlacesAutocomplete.show(
+          context: context,
+          strictbounds: _center == null ? false : true,
+          apiKey: "AIzaSyCykaQAJWh7T33fy95TzqLfOFTCgWwmtDQ",
+
+          mode: Mode.fullscreen,
+
+
+          radius: _center == null ? null : 10000);
+      print("this is place ${p!.placeId}");
+    } catch (e) {
+      return;
+    }
+  }
+  Future displayPrediction(Prediction p) async {
+        print('this P $p');
+
+     try {
+       PlacesDetailsResponse detail =
+       await _places.getDetailsByPlaceId(p.placeId!);
+
+       var placeId = p.placeId;
+       double lat = detail.result.geometry!.location.lat;
+       double lng = detail.result.geometry!.location.lng;
+
+       var address = await Geocoder.local.findAddressesFromQuery(p.description);
+
+       print(lat);
+       print(lng);
+     }catch(error){
+       print('asaad');
+     }
+  }
 
   @override
   initState() {
+    getaddress();
+
     _center =
         LatLng(widget.locationData!.latitude, widget.locationData!.longitude);
 
@@ -199,13 +254,16 @@ class LocationmapPageBody extends State<LocationmapPage> {
     // Add listeners to this class
   }
 
+
   @override
   Widget build(BuildContext context) {
+
+
+
     var lan = Provider.of<LanguageProvider>(context, listen: true);
     var isAuth = Provider.of<AuthProvider>(context, listen: true).isAuth;
     widthscreen = MediaQuery.of(context).size.width;
     heightscreen = MediaQuery.of(context).size.height;
-    locationTex = "dont location";
 
     final size = MediaQuery.of(context).size;
     final deviceRatio = size.width / size.height;
@@ -214,6 +272,33 @@ class LocationmapPageBody extends State<LocationmapPage> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () async {
+
+              var city;
+              Prediction? p = await PlacesAutocomplete.show(
+                  offset: 0,
+                  radius: 1000,
+                  strictbounds: false,
+                  region: "us",
+                  language: "en",
+                  context: context,
+                  mode: Mode.overlay,
+                 // "AIzaSyCykaQAJWh7T33fy95TzqLfOFTCgWwmtDQ"
+
+                  apiKey: " AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A",
+                  components: [new Component(Component.country, "us")],
+                  types: ["(cities)"],
+                  hint: "Search City",
+                  startText: city == null || city == "" ? "" : city
+              );
+
+              displayPrediction(p!);
+            },
+          ),
+        ],),
         body: Container(
           color: Colors.green[400],
           child: Column(
@@ -223,6 +308,8 @@ class LocationmapPageBody extends State<LocationmapPage> {
                 child: Stack(
                   children: [
                     GoogleMap(
+                      zoomControlsEnabled: false,
+
                       mapType: _currentMapType,
                       onMapCreated: (GoogleMapController controller) {
                         _controller?.complete(controller);
@@ -263,27 +350,64 @@ class LocationmapPageBody extends State<LocationmapPage> {
                         ),
                       ),
                     ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Theme.of(context).canvasColor,
+                              ),
+                              padding: EdgeInsets.all(10),
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: MediaQuery.of(context).size.height * 0.18,
+                              child:
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                     Text('${locationTex}',style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),),
+                                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                                      Text("${coordinates}",style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold)),
+                                    ],
+                                  )
+
+
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  child: Container(
+                                    child: SvgPicture.asset(
+                                      'assets/svg/x.svg',
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    Utils.NavigatorKey.currentState!.pushReplacementNamed("/otp");
+                                  },
+                                  child: Container(
+                                    child: SvgPicture.asset(
+                                      'assets/svg/icon_map.svg',
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
-              Container(
-                  child: ElevatedButton(
-                onPressed: () {
-                  if (isAuth) {
-                    Utils.NavigatorKey.currentState!
-                        .pushReplacementNamed('/appointmen');
-                  } else {
-                    Utils.NavigatorKey.currentState!.pushNamedAndRemoveUntil(
-                        '/otp', (Route<dynamic> route) => false);
-                  }
-                },
-                child: Text("${lan.getTexts('next')}"),
-                style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 20),
-                    elevation: 5,
-                    fixedSize: Size(MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height * 0.06)),
-              ))
             ],
           ),
 

@@ -58,7 +58,7 @@ class _OtpFormState extends State<OtpForm> {
                       'assets/svg/apple.svg',
                     ),
                   ),
-                  SizedBox(height: SizeConfig.height * 0.05),
+                  SizedBox(height: SizeConfig.height * 0.03),
                   Text(
                     "Login",
                     style: Theme.of(context)
@@ -83,11 +83,7 @@ class _OtpFormState extends State<OtpForm> {
                           autofocus: true,
                           keyboardType: TextInputType.phone,
                           decoration: new InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                            ),
+
                             hintText: "+1",
                           ),
                           validator: (value) {
@@ -110,10 +106,7 @@ class _OtpFormState extends State<OtpForm> {
                           autofocus: true,
                           keyboardType: TextInputType.phone,
                           decoration: new InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                            ),
+
                             hintText: "Number",
                           ),
                           validator: (value) {
@@ -161,15 +154,20 @@ class _OtpFormState extends State<OtpForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account ?",
+                        "Don't have an account ? ",
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
-                      Text(
-                        "Create account",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(color: Theme.of(context).primaryColor),
+                      GestureDetector(
+                      onTap: (){
+                        Utils.NavigatorKey.currentState!.pushReplacementNamed('/account');
+                      }
+                      ,child: Text(
+                          "Create account",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(color: Theme.of(context).primaryColor),
+                        ),
                       ),
                     ],
                   ),

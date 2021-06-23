@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:maak/screens/nav.dart';
-import 'package:maak/screens/nav_home.dart';
+import 'package:maak/screens/nav/nav.dart';
+import 'package:maak/screens/nav/nav_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 

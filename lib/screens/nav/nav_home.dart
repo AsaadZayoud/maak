@@ -10,9 +10,9 @@ import 'package:maak/widgets/category_list.dart';
 import 'package:maak/widgets/service_widget.dart';
 import 'package:provider/provider.dart';
 
-import 'calendar.dart';
-import 'login/login.dart';
-import 'login/otp_code.dart';
+import '../calendar.dart';
+import '../login/otp_code.dart';
+import 'nav_home_date.dart';
 
 // ignore: must_be_immutable
 class NavHome extends StatelessWidget {
@@ -29,6 +29,7 @@ class NavHome extends StatelessWidget {
           case '/tabScreen':
             page = TabScreen();
             break;
+
           case '/home':
             page = Home();
             break;

@@ -7,7 +7,7 @@ class Utils {
   static GlobalKey<NavigatorState> NavigatorKey = GlobalKey<NavigatorState>();
   static GlobalKey<NavigatorState> mainNavigatorKey = GlobalKey<
       NavigatorState>();
-
+  static GlobalKey<NavigatorState> NavigatorKeyDate = GlobalKey<NavigatorState>();
 
 
 
