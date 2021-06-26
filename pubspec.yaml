@@ -34,9 +34,12 @@ dependencies:
   settings_ui:
   flutter_button: ^0.0.4
   http:
+  uuid:
   flutter_svg: ^0.22.0
   flutter_native_splash: ^1.2.0
   table_calendar: ^3.0.0
+  flutter_google_places_hoc081098:
+
   intl:
   flutter_calendar_carousel:
   google_maps_flutter:
@@ -44,7 +47,6 @@ dependencies:
   geolocator:
   geocoding:
   geocoder:
-  flutter_google_places: ^0.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

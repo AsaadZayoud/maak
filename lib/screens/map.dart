@@ -1,8 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
 
+import 'dart:convert' as convert;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,12 +20,13 @@ import 'package:maak/providers/auth_provider.dart';
 import 'package:maak/providers/language_provider.dart';
 import "dart:async";
 import "package:google_maps_webservice/places.dart";
-import "package:flutter_google_places/flutter_google_places.dart";
 import 'dart:ui' as ui;
 
 import 'package:maak/providers/utils.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import 'login/otp.dart';
+
 
 class LocationmapPage extends StatefulWidget {
   LocationData? locationData;
@@ -45,7 +51,8 @@ class LocationmapPageBody extends State<LocationmapPage> {
   final Set<Marker> _markers = {};
   MapType _currentMapType = MapType.normal;
 
-  GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: " AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A");
+  GoogleMapsPlaces _places =
+      GoogleMapsPlaces(apiKey: "AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A");
   void _onMapTypeButtonPressed() {
     setState(() {
       _currentMapType = _currentMapType == MapType.normal
@@ -184,52 +191,51 @@ class LocationmapPageBody extends State<LocationmapPage> {
 
     return BitmapDescriptor.fromBytes(uint8List);
   }
+
   Future<String> getaddress() async {
-     coordinates = await new Coordinates(_lastMapPosition.latitude, _lastMapPosition.longitude);
+    coordinates = await new Coordinates(
+        _lastMapPosition.latitude, _lastMapPosition.longitude);
     var addresses =
-    await Geocoder.local.findAddressesFromCoordinates(coordinates);
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
     locationTex = " ${first.addressLine}";
 
-    print("${first.postalCode } : ${first.addressLine}");
+    print("${first.postalCode} : ${first.addressLine}");
     return "${first.featureName}";
   }
 
-  Future<void> handlePressButton() async {
+  Future<void> _handlePressButton() async {
     try {
-
       Prediction? p = await PlacesAutocomplete.show(
           context: context,
           strictbounds: _center == null ? false : true,
           apiKey: "AIzaSyCykaQAJWh7T33fy95TzqLfOFTCgWwmtDQ",
-
           mode: Mode.fullscreen,
-
-
           radius: _center == null ? null : 10000);
       print("this is place ${p!.placeId}");
     } catch (e) {
       return;
     }
   }
+
   Future displayPrediction(Prediction p) async {
-        print('this P $p');
+    print('this P $p');
 
-     try {
-       PlacesDetailsResponse detail =
-       await _places.getDetailsByPlaceId(p.placeId!);
+    try {
+      PlacesDetailsResponse detail =
+          await _places.getDetailsByPlaceId(p.placeId!);
 
-       var placeId = p.placeId;
-       double lat = detail.result.geometry!.location.lat;
-       double lng = detail.result.geometry!.location.lng;
+      var placeId = p.placeId;
+      double lat = detail.result.geometry!.location.lat;
+      double lng = detail.result.geometry!.location.lng;
 
-       var address = await Geocoder.local.findAddressesFromQuery(p.description);
+      var address = await Geocoder.local.findAddressesFromQuery(p.description);
 
-       print(lat);
-       print(lng);
-     }catch(error){
-       print('asaad');
-     }
+      print(lat);
+      print(lng);
+    } catch (error) {
+      print('asaad');
+    }
   }
 
   @override
@@ -254,12 +260,8 @@ class LocationmapPageBody extends State<LocationmapPage> {
     // Add listeners to this class
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
-
     var lan = Provider.of<LanguageProvider>(context, listen: true);
     var isAuth = Provider.of<AuthProvider>(context, listen: true).isAuth;
     widthscreen = MediaQuery.of(context).size.width;
@@ -270,35 +272,90 @@ class LocationmapPageBody extends State<LocationmapPage> {
 
     // LatLng temp = LatLng(widget.temp.lat, widget.temp.lang);
 
+    // Future<List<PlaceSearch>> getAutocomplete(String search) async {
+    //   var url =
+    //       'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&types=(cities)&key=AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A';
+    //   var response = await http.get(Uri.parse(url));
+    //   var json = convert.jsonDecode(response.body);
+    //   var jsonResults = json['predictions'] as List;
+    //   return jsonResults.map((place) => PlaceSearch.fromJson(place)).toList();
+    // }
+
+    // var uuid = new Uuid();
+    // String _sessionToken = new Uuid().v4();
+    // List<dynamic> _placeList = [];
+    // void getSuggestion(String input) async {
+    //   String kPLACES_API_KEY = "AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A";
+    //   String type = '(regions)';
+    //   String baseURL =
+    //       'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    //   String request =
+    //       '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
+    //   var response = await http.get(Uri.parse(request));
+    //   if (response.statusCode == 200) {
+    //     setState(() {
+    //       _placeList = json.decode(response.body)['predictions'];
+    //       print(json.decode(response.body)['predictions']);
+    //     });
+    //   } else {
+    //     print('error');
+    //     throw Exception('Failed to load predictions');
+    //   }
+    // }
+
+    // void _onChanged() {
+    //   if (_sessionToken == '') {
+    //     setState(() {
+    //       _sessionToken = uuid.v4();
+    //       print(_sessionToken);
+    //     });
+    //   }
+    //   print(_sessionToken);
+    //   getSuggestion('r');
+    // }
+
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () async {
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () async {
+                //   handlePressButton();
 
-              var city;
-              Prediction? p = await PlacesAutocomplete.show(
-                  offset: 0,
-                  radius: 1000,
-                  strictbounds: false,
-                  region: "us",
-                  language: "en",
-                  context: context,
-                  mode: Mode.overlay,
-                 // "AIzaSyCykaQAJWh7T33fy95TzqLfOFTCgWwmtDQ"
+                // getAutocomplete('hama');
+                var city = 'Homs';
+                try {
+                  //       _onChanged();
 
-                  apiKey: " AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A",
-                  components: [new Component(Component.country, "us")],
-                  types: ["(cities)"],
-                  hint: "Search City",
-                  startText: city == null || city == "" ? "" : city
-              );
+                  Prediction? p = await PlacesAutocomplete.show(
 
-              displayPrediction(p!);
-            },
-          ),
-        ],),
+                    logo: Text(""),
+
+                    offset: 0,
+                    radius: 1000000,
+                    strictbounds: false,
+                    region: "us",
+                    language: "en",
+                    context: context,
+                    mode: Mode.overlay,
+
+                    // "AIzaSyCykaQAJWh7T33fy95TzqLfOFTCgWwmtDQ"
+
+                    apiKey: "AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A",
+
+                    types: ["(cities)"],
+                    hint: "Search City",
+                  );
+                  print('this is p ${p!}');
+                     displayPrediction(p);
+                } catch (error) {
+                  print('this is error $city');
+                }
+              },
+            ),
+          ],
+        ),
         body: Container(
           color: Colors.green[400],
           child: Column(
@@ -357,25 +414,37 @@ class LocationmapPageBody extends State<LocationmapPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Theme.of(context).canvasColor,
-                              ),
-                              padding: EdgeInsets.all(10),
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              height: MediaQuery.of(context).size.height * 0.18,
-                              child:
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                     Text('${locationTex}',style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),),
-                                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                                      Text("${coordinates}",style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold)),
-                                    ],
-                                  )
-
-
-                            ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Theme.of(context).canvasColor,
+                                ),
+                                padding: EdgeInsets.all(10),
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.18,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '${locationTex}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    Text("${coordinates}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .copyWith(
+                                                fontWeight: FontWeight.bold)),
+                                  ],
+                                )),
                             SizedBox(
                               height: 5,
                             ),
@@ -390,8 +459,9 @@ class LocationmapPageBody extends State<LocationmapPage> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: (){
-                                    Utils.NavigatorKey.currentState!.pushReplacementNamed("/otp");
+                                  onTap: () {
+                                    Utils.NavigatorKey.currentState!
+                                        .pushReplacementNamed("/otp");
                                   },
                                   child: Container(
                                     child: SvgPicture.asset(

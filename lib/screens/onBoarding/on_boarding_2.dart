@@ -25,7 +25,7 @@ class OnBoarding2 extends StatelessWidget {
           alignment: Alignment.center,
           width:  MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height*0.4,
-          color: Theme.of(context).primaryColor.withOpacity(0.5),
+          color: Theme.of(context).accentColor.withOpacity(0.5),
           padding:
           EdgeInsets.symmetric(vertical: 5, horizontal: 20),
           child: Column(

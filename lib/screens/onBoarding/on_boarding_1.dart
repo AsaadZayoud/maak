@@ -22,7 +22,7 @@ class OnBoarding1 extends StatelessWidget {
           Container(
             alignment: Alignment.center,
             width: 300,
-            color: Theme.of(context).primaryColor.withOpacity(0.5),
+            color: Theme.of(context).accentColor.withOpacity(0.5),
             padding:
             EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: Text(
@@ -34,7 +34,7 @@ class OnBoarding1 extends StatelessWidget {
           ),
           Container(
             width: 350,
-            color: Theme.of(context).primaryColor.withOpacity(0.5),
+            color: Theme.of(context).accentColor.withOpacity(0.5),
             padding:
             EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             margin: EdgeInsets.only(bottom: 20),

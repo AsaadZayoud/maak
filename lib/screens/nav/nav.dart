@@ -17,6 +17,7 @@ import '../calendar.dart';
 import '../categories_screen.dart';
 import '../login/otp.dart';
 import '../login/otp_code.dart';
+import '../payment/payment_screen.dart';
 import 'nav_home_date.dart';
 
 class Nav extends StatelessWidget {
@@ -25,15 +26,12 @@ class Nav extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: Utils.NavigatorKey,
-      initialRoute: '/navDate',
+      initialRoute: '/payment',
       onGenerateRoute: (RouteSettings settings) {
         Widget page;
         switch (settings.name) {
 
-          case '/navDate':
-            page =  navHomeDate();
-            break;
-            break;
+
           case '/categoriesScreen':
             page = categoriesScreen();
           break;
@@ -60,6 +58,9 @@ class Nav extends StatelessWidget {
             break;
           case '/account':
             page = createAccount();
+            break;
+          case '/payment':
+            page = PaymentScreen();
             break;
           default:
             page = Container();

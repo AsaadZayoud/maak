@@ -85,7 +85,7 @@ class _categoriesScreenState extends State<categoriesScreen> {
                               itemBuilder: (ctx, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    Utils.NavigatorKeyDate.currentState!
+                                    Utils.NavigatorKey.currentState!
                                         .pushNamed('/calendar');
                                   },
                                   child: Container(

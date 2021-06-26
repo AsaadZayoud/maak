@@ -29,7 +29,46 @@ class _SerState extends State<Home> {
     return Directionality(
       textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).canvasColor,
+      elevation: 0,
+      leading: Align(
+        alignment: Alignment.topCenter
+        ,
+        child: Builder(
+          builder: (context) => IconButton(
+            icon: SvgPicture.asset(
+              'assets/svg/drawer.svg',
+              height: 15,
+              width: 34,
+            ),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
+      ),
+      title:      Align(
+        alignment:lan.isEn ?  Alignment.bottomRight : Alignment.bottomLeft,
+        child: GestureDetector(
+          onTap: () {
 
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfileScreen()),
+            );
+          },
+          child: CircleAvatar(
+            radius: 18,
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/profile.png',
+              ),
+            ),
+          ),
+        ),
+      ) ,
+
+
+    ),
         body: Nav()
       ),
     );

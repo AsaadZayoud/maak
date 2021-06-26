@@ -22,7 +22,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var primaryColor = Theme.of(context).primaryColor;
+    var primaryColor = Theme.of(context).accentColor;
     var lan = Provider.of<LanguageProvider>(context, listen: true);
     return Scaffold(
       body: Stack(

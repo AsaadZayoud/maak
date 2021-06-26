@@ -259,6 +259,9 @@ class _CalendarState extends State<Calendar> {
                                   onTap: ()  async{
                                    await _getUserLocation();
 
+
+                             //      Utils.NavigatorKey.currentState!.pushReplacementNamed('/map');
+
                                       Utils.NavigatorKey.currentState!.pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) => LocationmapPage(locationData: widget.locationData,)));
