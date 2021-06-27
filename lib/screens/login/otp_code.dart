@@ -262,7 +262,7 @@ class _OtbCodeState extends State<OtbCode> {
 
                               if (int.parse(numVal) == 123456) {
                                 Utils.NavigatorKey.currentState!
-                                    .pushNamed('/appointmen');
+                                    .pushNamed('/payment');
                                 numVal = '';
                               } else {
                                 _showToast(

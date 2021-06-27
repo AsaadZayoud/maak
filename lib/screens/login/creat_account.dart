@@ -61,6 +61,7 @@ class _createAccountState extends State<createAccount> {
     var SizeConfig = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
+        margin: EdgeInsets.all(15),
         child: Form(
           key: _formKey,
           child: Container(
@@ -117,7 +118,7 @@ class _createAccountState extends State<createAccount> {
                       children: [
                         Container(
                           decoration: BoxDecoration(),
-                          width: SizeConfig.width * 0.2,
+                          width: SizeConfig.width * 0.15,
                           child: TextFormField(
                             focusNode: filed2,
                             autofocus: true,

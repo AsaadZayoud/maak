@@ -49,7 +49,8 @@ class _OtpFormState extends State<OtpForm> {
         body: SingleChildScrollView(
           child: Container(
             child: Padding(
-              padding: const EdgeInsets.all(15.0),
+
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
                   SizedBox(height: SizeConfig.height * 0.05),
@@ -78,7 +79,7 @@ class _OtpFormState extends State<OtpForm> {
                     children: [
                       Container(
                         decoration: BoxDecoration(),
-                        width: SizeConfig.width * 0.2,
+                        width: SizeConfig.width * 0.16,
                         child: TextFormField(
                           autofocus: true,
                           keyboardType: TextInputType.phone,
@@ -100,7 +101,7 @@ class _OtpFormState extends State<OtpForm> {
                       ),
                       Container(
                         decoration: BoxDecoration(),
-                        width: SizeConfig.width * 0.68,
+                        width: SizeConfig.width * 0.65,
                         child: TextFormField(
                           focusNode: pin1FocusNode,
                           autofocus: true,

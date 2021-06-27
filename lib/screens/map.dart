@@ -27,7 +27,6 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'login/otp.dart';
 
-
 class LocationmapPage extends StatefulWidget {
   LocationData? locationData;
   LocationmapPage({this.locationData});
@@ -63,6 +62,7 @@ class LocationmapPageBody extends State<LocationmapPage> {
 
   void _onCameraMove(CameraPosition position) {
     setState(() {
+      getaddress();
       _lastMapPosition = position.target;
     });
   }
@@ -88,162 +88,28 @@ class LocationmapPageBody extends State<LocationmapPage> {
     });
   }
 
-  Future<ui.Image> getImageFromPath(String imagePath) async {
-    File imageFile = File(imagePath);
 
-    Uint8List imageBytes = imageFile.readAsBytesSync();
 
-    final Completer<ui.Image> completer = new Completer();
-
-    ui.decodeImageFromList(imageBytes, (ui.Image img) {
-      return completer.complete(img);
-    });
-
-    return completer.future;
-  }
-
-  Future<BitmapDescriptor> getMarkerIcon(String imagePath, Size size) async {
-    final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(pictureRecorder);
-
-    final Radius radius = Radius.circular(size.width / 2);
-
-    final Paint tagPaint = Paint()..color = Colors.blue;
-    final double tagWidth = 40.0;
-
-    final Paint shadowPaint = Paint()..color = Colors.blue.withAlpha(100);
-    final double shadowWidth = 15.0;
-
-    final Paint borderPaint = Paint()..color = Colors.white;
-    final double borderWidth = 3.0;
-
-    final double imageOffset = shadowWidth + borderWidth;
-
-    // Add shadow circle
-    canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(0.0, 0.0, size.width, size.height),
-          topLeft: radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
-        ),
-        shadowPaint);
-
-    // Add border circle
-    canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(shadowWidth, shadowWidth,
-              size.width - (shadowWidth * 2), size.height - (shadowWidth * 2)),
-          topLeft: radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
-        ),
-        borderPaint);
-
-    // Add tag circle
-    canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(size.width - tagWidth, 0.0, tagWidth, tagWidth),
-          topLeft: radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
-        ),
-        tagPaint);
-
-    // Add tag text
-    TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
-    textPainter.text = TextSpan(
-      text: '1',
-      style: TextStyle(fontSize: 20.0, color: Colors.white),
-    );
-
-    textPainter.layout();
-    textPainter.paint(
-        canvas,
-        Offset(size.width - tagWidth / 2 - textPainter.width / 2,
-            tagWidth / 2 - textPainter.height / 2));
-
-    // Oval for the image
-    Rect oval = Rect.fromLTWH(imageOffset, imageOffset,
-        size.width - (imageOffset * 2), size.height - (imageOffset * 2));
-
-    // Add path for oval image
-    canvas.clipPath(Path()..addOval(oval));
-
-    // Add image
-    ui.Image image = await getImageFromPath(
-        imagePath); // Alternatively use your own method to get the image
-    // ui.Image image = await getUiImage(imagePath, 50, 50);
-    paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.fitWidth);
-
-    // Convert canvas to image
-    final ui.Image markerAsImage = await pictureRecorder
-        .endRecording()
-        .toImage(size.width.toInt(), size.height.toInt());
-
-    // Convert image to bytes
-    final ByteData? byteData =
-        await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
-    final Uint8List uint8List = byteData!.buffer.asUint8List();
-
-    return BitmapDescriptor.fromBytes(uint8List);
-  }
 
   Future<String> getaddress() async {
-    coordinates = await new Coordinates(
+    coordinates =  new Coordinates(
         _lastMapPosition.latitude, _lastMapPosition.longitude);
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
     locationTex = " ${first.addressLine}";
 
-    print("${first.postalCode} : ${first.addressLine}");
+
     return "${first.featureName}";
-  }
-
-  Future<void> _handlePressButton() async {
-    try {
-      Prediction? p = await PlacesAutocomplete.show(
-          context: context,
-          strictbounds: _center == null ? false : true,
-          apiKey: "AIzaSyCykaQAJWh7T33fy95TzqLfOFTCgWwmtDQ",
-          mode: Mode.fullscreen,
-          radius: _center == null ? null : 10000);
-      print("this is place ${p!.placeId}");
-    } catch (e) {
-      return;
-    }
-  }
-
-  Future displayPrediction(Prediction p) async {
-    print('this P $p');
-
-    try {
-      PlacesDetailsResponse detail =
-          await _places.getDetailsByPlaceId(p.placeId!);
-
-      var placeId = p.placeId;
-      double lat = detail.result.geometry!.location.lat;
-      double lng = detail.result.geometry!.location.lng;
-
-      var address = await Geocoder.local.findAddressesFromQuery(p.description);
-
-      print(lat);
-      print(lng);
-    } catch (error) {
-      print('asaad');
-    }
   }
 
   @override
   initState() {
-    getaddress();
-
     _center =
         LatLng(widget.locationData!.latitude, widget.locationData!.longitude);
+    getaddress();
+
+
 
     _markers.add(
       Marker(
@@ -260,6 +126,9 @@ class LocationmapPageBody extends State<LocationmapPage> {
     // Add listeners to this class
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
@@ -272,90 +141,8 @@ class LocationmapPageBody extends State<LocationmapPage> {
 
     // LatLng temp = LatLng(widget.temp.lat, widget.temp.lang);
 
-    // Future<List<PlaceSearch>> getAutocomplete(String search) async {
-    //   var url =
-    //       'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&types=(cities)&key=AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A';
-    //   var response = await http.get(Uri.parse(url));
-    //   var json = convert.jsonDecode(response.body);
-    //   var jsonResults = json['predictions'] as List;
-    //   return jsonResults.map((place) => PlaceSearch.fromJson(place)).toList();
-    // }
-
-    // var uuid = new Uuid();
-    // String _sessionToken = new Uuid().v4();
-    // List<dynamic> _placeList = [];
-    // void getSuggestion(String input) async {
-    //   String kPLACES_API_KEY = "AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A";
-    //   String type = '(regions)';
-    //   String baseURL =
-    //       'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    //   String request =
-    //       '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
-    //   var response = await http.get(Uri.parse(request));
-    //   if (response.statusCode == 200) {
-    //     setState(() {
-    //       _placeList = json.decode(response.body)['predictions'];
-    //       print(json.decode(response.body)['predictions']);
-    //     });
-    //   } else {
-    //     print('error');
-    //     throw Exception('Failed to load predictions');
-    //   }
-    // }
-
-    // void _onChanged() {
-    //   if (_sessionToken == '') {
-    //     setState(() {
-    //       _sessionToken = uuid.v4();
-    //       print(_sessionToken);
-    //     });
-    //   }
-    //   print(_sessionToken);
-    //   getSuggestion('r');
-    // }
-
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () async {
-                //   handlePressButton();
-
-                // getAutocomplete('hama');
-                var city = 'Homs';
-                try {
-                  //       _onChanged();
-
-                  Prediction? p = await PlacesAutocomplete.show(
-
-                    logo: Text(""),
-
-                    offset: 0,
-                    radius: 1000000,
-                    strictbounds: false,
-                    region: "us",
-                    language: "en",
-                    context: context,
-                    mode: Mode.overlay,
-
-                    // "AIzaSyCykaQAJWh7T33fy95TzqLfOFTCgWwmtDQ"
-
-                    apiKey: "AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A",
-
-                    types: ["(cities)"],
-                    hint: "Search City",
-                  );
-                  print('this is p ${p!}');
-                     displayPrediction(p);
-                } catch (error) {
-                  print('this is error $city');
-                }
-              },
-            ),
-          ],
-        ),
         body: Container(
           color: Colors.green[400],
           child: Column(
@@ -366,7 +153,9 @@ class LocationmapPageBody extends State<LocationmapPage> {
                   children: [
                     GoogleMap(
                       zoomControlsEnabled: false,
-
+                     mapToolbarEnabled: true,
+                      myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
                       mapType: _currentMapType,
                       onMapCreated: (GoogleMapController controller) {
                         _controller?.complete(controller);
@@ -375,35 +164,40 @@ class LocationmapPageBody extends State<LocationmapPage> {
                         target: _center,
                         zoom: 11.0,
                       ),
-                      // compassEnabled: true,
-                      markers: _markers,
+                       compassEnabled: true,
+                     // markers: _markers,
                       onCameraMove: _onCameraMove,
                     ),
-                    Align(
-                        alignment: Alignment.topRight,
-                        child: FloatingActionButton(
-                          onPressed: _onMapTypeButtonPressed,
-                          materialTapTargetSize: MaterialTapTargetSize.padded,
-                          backgroundColor: Colors.green,
-                          child: const Icon(Icons.map, size: 36.0),
-                        )),
+                    // Align(
+                    //     alignment: Alignment.topRight,
+                    //     child: FloatingActionButton(
+                    //       onPressed: _onMapTypeButtonPressed,
+                    //       materialTapTargetSize: MaterialTapTargetSize.padded,
+                    //       backgroundColor: Colors.green,
+                    //       child: const Icon(Icons.map, size: 36.0),
+                    //     )),
                     SizedBox(height: 16.0),
                     Align(
                       alignment: Alignment.center,
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _onAddMarkerButtonPressed();
 
-                            print("markerId is" + _lastMapPosition.toString());
-                          });
-                        },
-                        //   materialTapTargetSize: MaterialTapTargetSize.padded,
-                        //  backgroundColor: Colors.green,
-                        icon: const Icon(
-                          Icons.add_location,
-                          size: 55.0,
-                          color: Colors.green,
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                            //  _onAddMarkerButtonPressed();
+
+                              print("markerId is" + _lastMapPosition.toString());
+                            });
+                          },
+                          //   materialTapTargetSize: MaterialTapTargetSize.padded,
+                          //  backgroundColor: Colors.green,
+                          icon: const Icon(
+
+                            Icons.add_location,
+
+                            size: 35.0,
+                            color: Colors.green,
+                          ),
                         ),
                       ),
                     ),
@@ -437,7 +231,7 @@ class LocationmapPageBody extends State<LocationmapPage> {
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.01),
-                                    Text("${coordinates}",
+                                    Text("${_lastMapPosition}",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyText1!

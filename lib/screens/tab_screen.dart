@@ -87,7 +87,7 @@ class _TabScreenState extends State<TabScreen>
               children: [
                 Calendar(),
                 Container(child: Icon(Icons.directions_transit)),
-                Container(child: Nav()),
+                Container(child: Home()),
                 Container(child: Icon(Icons.directions_bike)),
                 Container(child: Icon(Icons.directions_bike)),
               ],
@@ -118,13 +118,11 @@ class _TabScreenState extends State<TabScreen>
                   Tab(
                       child: GestureDetector(
                           onTap: () {
-                            try {
-                              Utils.NavigatorKeyDate.currentState!
-                                  .popAndPushNamed('/categoriesScreen');
-                            } catch (error) {
+
+
                               try{
                                 Utils.NavigatorKey.currentState!
-                                    .pushReplacementNamed('/navDate');
+                                    .pushReplacementNamed('/categoriesScreen');
                               }
                               catch(error){
                                 Utils.mainNavigatorKey.currentState!
@@ -133,7 +131,7 @@ class _TabScreenState extends State<TabScreen>
                               }
 
 
-                          },
+                          ,
                           child: Image.asset('assets/images/home_icon_1.png'))),
                   Tab(
                     icon: SvgPicture.asset(

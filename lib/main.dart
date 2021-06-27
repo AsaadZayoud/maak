@@ -130,7 +130,7 @@ class MyApp extends StatelessWidget {
         ProfileScreen.routeName: (ctx) => ProfileScreen(),
         OnBoardingScreen.routeName: (ctx) => OnBoardingScreen(),
         TabScreen.routeName: (ctx) => TabScreen(),
-        Calendar.routeName: (ctx) => Calendar()
+
       },
 
       // home: ListItem()

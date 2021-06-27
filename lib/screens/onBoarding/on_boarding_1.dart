@@ -27,7 +27,7 @@ class OnBoarding1 extends StatelessWidget {
             EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: Text(
               "${lan.getTexts('Maak')}",
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
               softWrap: true,
               overflow: TextOverflow.fade,
             ),
@@ -42,14 +42,14 @@ class OnBoarding1 extends StatelessWidget {
               children: [
                 Text(
                   "${lan.getTexts('choose_your_language')}",
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("${lan.getTexts('lan_ar')}",
-                        style: Theme.of(context).textTheme.headline6),
+                        style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white)),
                     Switch(
                       value: lan.isEn,
                       onChanged: (newValue) {
@@ -58,7 +58,7 @@ class OnBoarding1 extends StatelessWidget {
                             .changeLan(newValue);
                       },
                     ),
-                    Text("${lan.getTexts('lan_en')}" , style: Theme.of(context).textTheme.headline6),
+                    Text("${lan.getTexts('lan_en')}" , style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white)),
 
                   ],
                 ),
