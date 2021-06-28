@@ -7,6 +7,7 @@ import 'package:maak/providers/utils.dart';
 import 'package:maak/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'appointmen_screen.dart';
 import 'calendar.dart';
 import 'home.dart';
 import 'nav/nav.dart';
@@ -40,7 +41,43 @@ class _TabScreenState extends State<TabScreen>
         child: Directionality(
           textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
           child: Scaffold(
-
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).canvasColor,
+              elevation: 0,
+              leading: Align(
+                alignment: Alignment.topCenter,
+                child: Builder(
+                  builder: (context) => IconButton(
+                    icon: SvgPicture.asset(
+                      'assets/svg/drawer.svg',
+                      height: 15,
+                      width: 34,
+                    ),
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                  ),
+                ),
+              ),
+              title: Align(
+                alignment:
+                    lan.isEn ? Alignment.bottomRight : Alignment.bottomLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: 18,
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/images/profile.png',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             drawer: Drawer(
               elevation: 5,
               child: ListView(
@@ -86,7 +123,7 @@ class _TabScreenState extends State<TabScreen>
               physics: NeverScrollableScrollPhysics(),
               children: [
                 Calendar(),
-                Container(child: Icon(Icons.directions_transit)),
+                appointmenScreen(),
                 Container(child: Home()),
                 Container(child: Icon(Icons.directions_bike)),
                 Container(child: Icon(Icons.directions_bike)),
@@ -118,20 +155,14 @@ class _TabScreenState extends State<TabScreen>
                   Tab(
                       child: GestureDetector(
                           onTap: () {
-
-
-                              try{
-                                Utils.NavigatorKey.currentState!
-                                    .pushReplacementNamed('/categoriesScreen');
-                              }
-                              catch(error){
-                                Utils.mainNavigatorKey.currentState!
-                                    .pushReplacementNamed('/tabScreen');
-                              }
-                              }
-
-
-                          ,
+                            try {
+                              Utils.NavigatorKey.currentState!
+                                  .pushReplacementNamed('/categoriesScreen');
+                            } catch (error) {
+                              Utils.mainNavigatorKey.currentState!
+                                  .pushReplacementNamed('/tabScreen');
+                            }
+                          },
                           child: Image.asset('assets/images/home_icon_1.png'))),
                   Tab(
                     icon: SvgPicture.asset(

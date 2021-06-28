@@ -16,7 +16,7 @@ class Ads extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-              height:MediaQuery.of(context).size.height*0.18,
+              height:MediaQuery.of(context).size.height*0.13,
               width:  MediaQuery.of(context).size.width*0.3,
               decoration:  BoxDecoration(
                 color: Colors.green,

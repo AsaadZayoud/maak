@@ -66,6 +66,26 @@ class LanguageProvider with ChangeNotifier {
     ,"Thx_reg" : "شكرا للتسجيل"
     ,"plz_again" : "من فضلك حاول مرة اخرى"
     ,"login" : "تسجيل دخول"
+    ,"login_det" : '''تسجيل الدخول باستخدام الرقم وكلمة المرور اللذين قمت بإنشائهما
+                       أثناء التسجيل في التطبيق'''
+    ,"number" : "الرقم"
+    ,"dont_acc" : "ليس لديك حساب ؟"
+    ,"create_account" : "انشاء حساب"
+    ,"create_det" : "قم بإنشاء حساب معنا باستخدام هاتفك"
+    , "full_name" : "الاسم كامل"
+    ,"enter_gov" : "أدخل رقم الهوية الصادر عن الحكومة."
+    ,"agree" : "أنا أتفق مع"
+    ,"terms" : "مصطلحات"
+    ,"conditions" : "الشروط"
+    , "already_acc" : "هل لديك حساب ؟"
+    ,"dont_otp" : "لم تستلم OTP ؟"
+    ,"add_payment_det" : "أضف تفاصيل الدفع"
+    ,"credit_card"  : "بطاقة إئتمان"
+    ,"apple_pay" : "دفع ابل"
+    , "card_number" : "رقم البطاقة"
+    , "cardholder_name" : "إسم صاحب البطاقة"
+    , "expiry_date" : "تاريخ الانتهاء"
+    , "number_behind" : "الرقم خلف البطاقة"
   };
   Map<String, Object> textsEn = {
     "start": "GET STARTED",
@@ -129,6 +149,26 @@ class LanguageProvider with ChangeNotifier {
     ,"Thx_reg" : "Thanks for login"
     ,"plz_again" : "Please try again"
     ,"login" : "Login"
+    ,"login_det" : '''Login with the number and password you created 
+                      while registering  in the app'''
+    ,"number" : "Number"
+        ,"dont_acc": "Don't have an account ? "
+    ,"create_account" : "Create account"
+    , "create_det" : "Create an account with us using your phone"
+    , "full_name" : "Full Name"
+    ,"enter_gov" : "Enter Gov Issued ID No."
+    ,"agree" : "I agree with our"
+    ,"terms" : "Terms"
+    ,"conditions" : "Conditions"
+    , "already_acc" : "Already have an account ? "
+    , "dont_otp" : "Didn't receive OTP ?"
+    ,"add_payment_det" : "Add Payment Details"
+    , "credit_card" : "Credit Card"
+    , "apple_pay" : "Apple Pay"
+    , "card_number" : "Card number"
+    , "cardholder_name" : "Cardholder name"
+    , "expiry_date" : "Expiry Date"
+    ,"number_behind" : "Number behind the card"
   };
 
   changeLan(bool lan) async {

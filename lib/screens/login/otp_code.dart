@@ -313,11 +313,11 @@ class _OtbCodeState extends State<OtbCode> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Didn't receive OTP? "),
+                      Text("${lan.getTexts('dont_otp')}"),
                       GestureDetector(
                           onTap: () {},
                           child: Text(
-                            "Resend",
+                            "${lan.getTexts('re_send')}",
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor),
                           ))

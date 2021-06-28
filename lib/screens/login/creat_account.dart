@@ -78,7 +78,7 @@ class _createAccountState extends State<createAccount> {
                     ),
                     SizedBox(height: SizeConfig.height * 0.04),
                     Text(
-                      'Create account',
+                      "${lan.getTexts('create_account')}",
                       style: Theme.of(context)
                           .textTheme
                           .headline4!
@@ -86,7 +86,7 @@ class _createAccountState extends State<createAccount> {
                     ),
                     SizedBox(height: SizeConfig.height * 0.04),
                     Text(
-                      'Create an account with us using your phone',
+                      "${lan.getTexts('create_det')}",
                       style: Theme.of(context).textTheme.bodyText1!,
                     ),
                     SizedBox(height: SizeConfig.height * 0.04),
@@ -95,7 +95,7 @@ class _createAccountState extends State<createAccount> {
                       focusNode: filed1,
                       keyboardType: TextInputType.text,
                       decoration: new InputDecoration(
-                        hintText: "Full Name",
+                        hintText: "${lan.getTexts('full_name')}",
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -146,7 +146,7 @@ class _createAccountState extends State<createAccount> {
                             autofocus: true,
                             keyboardType: TextInputType.phone,
                             decoration: new InputDecoration(
-                              hintText: "Number",
+                              hintText: "${lan.getTexts('number')}",
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -198,7 +198,7 @@ class _createAccountState extends State<createAccount> {
                           },
                         ),
                         Text(
-                          "I agree with our ",
+                          "${lan.getTexts('agree')}",
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                         GestureDetector(
@@ -207,7 +207,7 @@ class _createAccountState extends State<createAccount> {
                                 .pushReplacementNamed('/otp');
                           },
                           child: Text(
-                            "Terms",
+                            "${lan.getTexts('terms')}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!
@@ -222,7 +222,7 @@ class _createAccountState extends State<createAccount> {
                                 .pushReplacementNamed('/otp');
                           },
                           child: Text(
-                            " Conditions",
+                            " ${lan.getTexts('conditions')}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!
@@ -275,7 +275,7 @@ class _createAccountState extends State<createAccount> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Already have an account ? ",
+                          "${lan.getTexts('already_acc')}",
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                         GestureDetector(
@@ -284,7 +284,7 @@ class _createAccountState extends State<createAccount> {
                                 .pushReplacementNamed('/otp');
                           },
                           child: Text(
-                            "Login",
+                            "${lan.getTexts('login')}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!

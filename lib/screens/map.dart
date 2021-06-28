@@ -50,16 +50,6 @@ class LocationmapPageBody extends State<LocationmapPage> {
   final Set<Marker> _markers = {};
   MapType _currentMapType = MapType.normal;
 
-  GoogleMapsPlaces _places =
-      GoogleMapsPlaces(apiKey: "AIzaSyAOx7d6re9a-HN200-BfkDCCnzendmhq3A");
-  void _onMapTypeButtonPressed() {
-    setState(() {
-      _currentMapType = _currentMapType == MapType.normal
-          ? MapType.satellite
-          : MapType.normal;
-    });
-  }
-
   void _onCameraMove(CameraPosition position) {
     setState(() {
       getaddress();
@@ -67,38 +57,13 @@ class LocationmapPageBody extends State<LocationmapPage> {
     });
   }
 
-  void _onAddMarkerButtonPressed() {
-    _markers.clear();
-    getaddress();
-    setState(() {
-      _markers.add(
-        Marker(
-          // This marker id can be anything that uniquely identifies each marker.
-          markerId: MarkerId(_lastMapPosition.toString()),
-
-          position: _lastMapPosition,
-
-          infoWindow: InfoWindow(
-
-              // snippet: val.toString(),
-              ),
-          //  icon: await getMarkerIcon(img, Size(150.0, 150.0))
-        ),
-      );
-    });
-  }
-
-
-
-
   Future<String> getaddress() async {
-    coordinates =  new Coordinates(
-        _lastMapPosition.latitude, _lastMapPosition.longitude);
+    coordinates =
+        new Coordinates(_lastMapPosition.latitude, _lastMapPosition.longitude);
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
     locationTex = " ${first.addressLine}";
-
 
     return "${first.featureName}";
   }
@@ -107,27 +72,12 @@ class LocationmapPageBody extends State<LocationmapPage> {
   initState() {
     _center =
         LatLng(widget.locationData!.latitude, widget.locationData!.longitude);
+    _lastMapPosition = _center;
     getaddress();
 
-
-
-    _markers.add(
-      Marker(
-        // This marker id can be anything that uniquely identifies each marker.
-        markerId: MarkerId(_lastMapPosition.toString()),
-        position: _center,
-        infoWindow: InfoWindow(
-          //  title: title,
-          snippet: val.toString(),
-        ),
-      ),
-    );
     super.initState();
     // Add listeners to this class
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +103,7 @@ class LocationmapPageBody extends State<LocationmapPage> {
                   children: [
                     GoogleMap(
                       zoomControlsEnabled: false,
-                     mapToolbarEnabled: true,
+                      mapToolbarEnabled: true,
                       myLocationButtonEnabled: true,
                       myLocationEnabled: true,
                       mapType: _currentMapType,
@@ -164,37 +114,26 @@ class LocationmapPageBody extends State<LocationmapPage> {
                         target: _center,
                         zoom: 11.0,
                       ),
-                       compassEnabled: true,
-                     // markers: _markers,
+                      compassEnabled: true,
+                      // markers: _markers,
                       onCameraMove: _onCameraMove,
                     ),
-                    // Align(
-                    //     alignment: Alignment.topRight,
-                    //     child: FloatingActionButton(
-                    //       onPressed: _onMapTypeButtonPressed,
-                    //       materialTapTargetSize: MaterialTapTargetSize.padded,
-                    //       backgroundColor: Colors.green,
-                    //       child: const Icon(Icons.map, size: 36.0),
-                    //     )),
-                    SizedBox(height: 16.0),
                     Align(
                       alignment: Alignment.center,
-
                       child: Center(
                         child: IconButton(
                           onPressed: () {
                             setState(() {
-                            //  _onAddMarkerButtonPressed();
+                              //  _onAddMarkerButtonPressed();
 
-                              print("markerId is" + _lastMapPosition.toString());
+                              print(
+                                  "markerId is" + _lastMapPosition.toString());
                             });
                           },
                           //   materialTapTargetSize: MaterialTapTargetSize.padded,
                           //  backgroundColor: Colors.green,
                           icon: const Icon(
-
                             Icons.add_location,
-
                             size: 35.0,
                             color: Colors.green,
                           ),
@@ -245,13 +184,13 @@ class LocationmapPageBody extends State<LocationmapPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                GestureDetector(
-                                  child: Container(
-                                    child: SvgPicture.asset(
-                                      'assets/svg/x.svg',
-                                    ),
-                                  ),
-                                ),
+                                // GestureDetector(
+                                //   child: Container(
+                                //     child: SvgPicture.asset(
+                                //       'assets/svg/x.svg',
+                                //     ),
+                                //   ),
+                                // ),
                                 GestureDetector(
                                   onTap: () {
                                     Utils.NavigatorKey.currentState!

@@ -26,7 +26,7 @@ class Nav extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: Utils.NavigatorKey,
-      initialRoute: '/appointmen',
+      initialRoute: '/categoriesScreen',
       onGenerateRoute: (RouteSettings settings) {
         Widget page;
         switch (settings.name) {

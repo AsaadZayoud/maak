@@ -61,7 +61,7 @@ class _OtpFormState extends State<OtpForm> {
                   ),
                   SizedBox(height: SizeConfig.height * 0.03),
                   Text(
-                    "Login",
+                    "${lan.getTexts('login')}",
                     style: Theme.of(context)
                         .textTheme
                         .headline2!
@@ -69,8 +69,7 @@ class _OtpFormState extends State<OtpForm> {
                   ),
                   SizedBox(height: SizeConfig.height * 0.05),
                   Text(
-                    '''Login with the number and password you created 
-                      while registering  in the app ''',
+                    "${lan.getTexts('login_det')}",
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                   SizedBox(height: SizeConfig.height * 0.05),
@@ -108,7 +107,7 @@ class _OtpFormState extends State<OtpForm> {
                           keyboardType: TextInputType.phone,
                           decoration: new InputDecoration(
 
-                            hintText: "Number",
+                            hintText:  "${lan.getTexts('number')}",
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -139,7 +138,7 @@ class _OtpFormState extends State<OtpForm> {
                           isSend = false;
                         });
                       },
-                      child: Text("Log In"),
+                      child: Text("${lan.getTexts('login')}"),
                       style: ButtonStyle(
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -155,7 +154,7 @@ class _OtpFormState extends State<OtpForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account ? ",
+                        "${lan.getTexts('dont_acc')}",
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                       GestureDetector(
@@ -163,7 +162,7 @@ class _OtpFormState extends State<OtpForm> {
                         Utils.NavigatorKey.currentState!.pushReplacementNamed('/account');
                       }
                       ,child: Text(
-                          "Create account",
+                          "${lan.getTexts('create_account')}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1!

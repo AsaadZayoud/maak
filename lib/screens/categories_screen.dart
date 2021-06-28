@@ -31,31 +31,30 @@ class _categoriesScreenState extends State<categoriesScreen> {
   @override
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
-    return  Scaffold(
-
+    return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.only(left: 15, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+              height: MediaQuery.of(context).size.height * 0.01,
             ),
             Text(
               "${lan.getTexts('ads')}",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.03,
+              height: MediaQuery.of(context).size.height * 0.01,
             ),
             Flexible(
-                flex: 5,
+                flex: 4,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: AdsList(),
                 )),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.05,
+              height: MediaQuery.of(context).size.height * 0.01,
             ),
             Text(
               "${lan.getTexts('service')}",
@@ -65,13 +64,14 @@ class _categoriesScreenState extends State<categoriesScreen> {
               height: MediaQuery.of(context).size.height * 0.03,
             ),
             Flexible(
-                flex: 8,
+                flex: 10,
                 child: Container(
                     color: Theme.of(context).canvasColor,
                     child: FutureBuilder<List<Service>>(
                       future: _futureAvailable,
                       builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );

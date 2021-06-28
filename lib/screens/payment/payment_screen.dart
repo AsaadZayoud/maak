@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:maak/providers/language_provider.dart';
 import 'package:maak/screens/payment/input_formatters.dart';
 import 'package:maak/screens/payment/payment_card.dart';
+import 'package:provider/provider.dart';
 
 import 'my_strings.dart';
 
@@ -33,6 +35,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   var _card = new PaymentCard();
   @override
   Widget build(BuildContext context) {
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
     var SizeConfig = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
@@ -42,7 +45,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           children: [
             SizedBox(height: SizeConfig.height * 0.08),
             Text(
-              "Add Payment Details",
+              "${lan.getTexts('add_payment_det')}",
               style: Theme.of(context)
                   .textTheme
                   .headline6!
@@ -67,7 +70,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           'assets/svg/card.svg',
                         ),
                         Text(
-                          ' Credit Card',
+                          "${lan.getTexts('credit_card')}",
                           style: Theme.of(context)
                               .textTheme
                               .headline6!
@@ -94,7 +97,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           'assets/svg/Apple_icon.svg',
                         ),
                         Text(
-                          ' Apple Pay',
+                          "${lan.getTexts('apple_pay')}",
                           style: Theme.of(context)
                               .textTheme
                               .headline6!
@@ -109,15 +112,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ],
             ),
             SizedBox(height: SizeConfig.height * 0.04),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: Text(
-                'Card number',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
+            Text(
+              "${lan.getTexts('card_number')}",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: SizeConfig.height * 0.02),
             TextFormField(
@@ -134,7 +134,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     borderSide: BorderSide.none),
                 filled: true,
                 // icon: CardUtils.getCardIcon(_paymentCard.type),
-                labelText: 'Number',
+                labelText: "${lan.getTexts('number')}",
                 suffixIcon: SvgPicture.asset(
                   'assets/svg/card.svg',
                 ),
@@ -148,7 +148,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ),
             SizedBox(height: SizeConfig.height * 0.04),
             Text(
-              "Cardholder name",
+              "${lan.getTexts('cardholder_name')}",
               style: Theme.of(context).textTheme.bodyText1,
             ),
             SizedBox(height: SizeConfig.height * 0.02),
@@ -161,7 +161,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 filled: true,
                 // icon: CardUtils.getCardIcon(_paymentCard.type),
 
-                labelText: 'Name',
+                labelText: "${lan.getTexts('name')}",
               ),
               onSaved: (String? value) {
                 _card.name = value;
@@ -178,7 +178,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Expiry Date",
+                      "${lan.getTexts('expiry_date')}",
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                     SizedBox(height: SizeConfig.height * 0.01),
@@ -197,7 +197,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               borderSide: BorderSide.none),
                           filled: true,
                           hintText: 'MM/YY',
-                          labelText: 'Expiry Date',
+                          labelText:"${lan.getTexts('expiry_date')}",
                         ),
                         validator: CardUtils.validateDate,
                         keyboardType: TextInputType.number,
@@ -232,7 +232,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none),
                           filled: true,
-                          hintText: 'Number behind the card',
+                          hintText: "${lan.getTexts('number_behind')}",
                           labelText: 'CVV',
                         ),
                         validator: CardUtils.validateCVV,
@@ -254,7 +254,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     .copyWith(fontWeight: FontWeight.bold)),
             SizedBox(height: SizeConfig.height * 0.03),
             Container(
+
               decoration: BoxDecoration(
+
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(15)),
               width: SizeConfig.width * 0.8,
