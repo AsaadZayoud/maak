@@ -42,7 +42,7 @@ class _categoriesScreenState extends State<categoriesScreen> {
             ),
             Text(
               "${lan.getTexts('ads')}",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style:Theme.of(context).textTheme.headline6!.copyWith(fontWeight: FontWeight.bold,fontFamily: 'Exo'),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
@@ -58,7 +58,7 @@ class _categoriesScreenState extends State<categoriesScreen> {
             ),
             Text(
               "${lan.getTexts('service')}",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style:Theme.of(context).textTheme.headline6!.copyWith(fontWeight: FontWeight.bold,fontFamily: 'Exo'),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.03,

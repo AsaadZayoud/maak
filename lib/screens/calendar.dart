@@ -67,8 +67,8 @@ class _CalendarState extends State<Calendar> {
     Widget container(
         {required Color color, int dayInt = 00, String dayText = 'DAY'}) {
       return Container(
-        height: 50,
-        width: 50,
+        height: 60,
+        width: 60,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: color,
@@ -89,10 +89,12 @@ class _CalendarState extends State<Calendar> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+
             children: [
               TableCalendar(
                 locale: lan.isEn ? 'en' : 'ar',
                 calendarStyle: CalendarStyle(
+
                   canMarkersOverflow: true,
                 ),
                 headerStyle: HeaderStyle(
@@ -125,6 +127,7 @@ class _CalendarState extends State<Calendar> {
                     );
                   },
                   selectedBuilder: (context, date, events) => Container(
+
                       margin: const EdgeInsets.all(4.0),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -135,13 +138,13 @@ class _CalendarState extends State<Calendar> {
                         children: [
                           Text(
                             date.day.toString(),
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white,fontSize: 12),
                           ),
                           Text(
                             DateFormat('EEEE')
                                 .format(_selectedDay)
                                 .substring(0, 3),
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white,fontSize: 8),
                           )
                         ],
                       )),
@@ -206,6 +209,7 @@ class _CalendarState extends State<Calendar> {
                   _focusedDay = focusedDay;
                 },
               ),
+            
               Padding(
                 padding: EdgeInsets.all(20),
                 child: Row(

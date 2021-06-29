@@ -22,10 +22,14 @@ class OnBoarding3 extends StatelessWidget {
       child:
       Center(
         child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: Theme.of(context).accentColor.withOpacity(0.5),
+          ),
           alignment: Alignment.center,
           width:  MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height*0.7,
-          color: Theme.of(context).accentColor.withOpacity(0.5),
+
           padding:
           EdgeInsets.symmetric(vertical: 5, horizontal: 20),
           child: Column(
@@ -34,21 +38,21 @@ class OnBoarding3 extends StatelessWidget {
               Text(
                 "${lan.getTexts('description')}",
 
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white),
                 softWrap: true,
 
                 overflow: TextOverflow.fade,
               ),
 
-              Text("* ${lan.getTexts('on_boarding3_1')}",  style: Theme.of(context).textTheme.headline6,
+              Text("* ${lan.getTexts('on_boarding3_1')}",  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
                 softWrap: true,
 
                 overflow: TextOverflow.fade,),
-              Text("* ${lan.getTexts('on_boarding3_2')}",  style: Theme.of(context).textTheme.headline6,
+              Text("* ${lan.getTexts('on_boarding3_2')}",  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
                 softWrap: true,
 
                 overflow: TextOverflow.fade,),
-              Text("* ${lan.getTexts('on_boarding3_3')}",  style: Theme.of(context).textTheme.headline6,
+              Text("* ${lan.getTexts('on_boarding3_3')}",  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
                 softWrap: true,
 
                 overflow: TextOverflow.fade,),

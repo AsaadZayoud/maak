@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:maak/providers/language_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -11,34 +12,29 @@ class OnBoarding1 extends StatelessWidget {
     return    Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: ExactAssetImage("assets/images/Cover.jpg"),
+          image: ExactAssetImage("assets/images/back.jpg"),
           fit: BoxFit.cover,
 
         ),
       ),
       child: Column(
+
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
-            alignment: Alignment.center,
-            width: 300,
-            color: Theme.of(context).accentColor.withOpacity(0.5),
-            padding:
-            EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-            child: Text(
-              "${lan.getTexts('Maak')}",
-              style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
-              softWrap: true,
-              overflow: TextOverflow.fade,
-            ),
-          ),
+      height: MediaQuery.of(context).size.height*0.22,
+        width: MediaQuery.of(context).size.width*0.9
+          ,child: Image.asset("assets/images/logo.png")),
           Container(
-            width: 350,
-            color: Theme.of(context).accentColor.withOpacity(0.5),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6),    color: Theme.of(context).accentColor.withOpacity(0.5),),
+            height: MediaQuery.of(context).size.height*0.22,
+            width: MediaQuery.of(context).size.width*0.9,
+
             padding:
             EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            margin: EdgeInsets.only(bottom: 20),
+            margin: EdgeInsets.only(bottom: 130),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   "${lan.getTexts('choose_your_language')}",

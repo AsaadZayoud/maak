@@ -33,9 +33,7 @@ class _TabScreenState extends State<TabScreen>
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
+return DefaultTabController(
         initialIndex: 2,
         length: 5,
         child: Directionality(
@@ -179,7 +177,7 @@ class _TabScreenState extends State<TabScreen>
             ),
           ),
         ),
-      ),
+
     );
   }
 }

@@ -88,7 +88,7 @@ class LanguageProvider with ChangeNotifier {
     , "number_behind" : "الرقم خلف البطاقة"
   };
   Map<String, Object> textsEn = {
-    "start": "GET STARTED",
+    "start": "Get Started",
     "Maak": "MA'K",
     "call_us": "Call Us",
     "tasks": "Tasks",

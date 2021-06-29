@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:maak/models/call_us.dart';
-import 'package:maak/models/profile.dart';
 import 'package:maak/providers/auth_provider.dart';
 import 'package:maak/providers/call_us.dart';
 import 'package:maak/providers/language_provider.dart';
 import 'package:maak/providers/profile_provider.dart';
 import 'package:maak/providers/setting_provider.dart';
-import 'package:maak/providers/utils.dart';
 import 'package:maak/screens/about_application.dart';
-import 'package:maak/screens/calendar.dart';
 import 'package:maak/screens/callus.dart';
 import 'package:maak/screens/help.dart';
 import 'package:maak/screens/login/otp.dart';
@@ -21,11 +17,7 @@ import 'package:maak/screens/questions.dart';
 import 'package:maak/screens/send_feedback.dart';
 import 'package:maak/screens/settings.dart';
 import 'package:maak/screens/support.dart';
-import 'package:maak/screens/callus.dart';
 import 'package:maak/screens/tab_screen.dart';
-import 'package:maak/widgets/bottom_navigation_bar.dart';
-import 'package:maak/widgets/category.dart';
-import 'package:maak/widgets/category_list.dart';
 import 'package:provider/provider.dart';
 import 'providers/service_provider.dart';
 import 'screens/nav/nav.dart';
@@ -72,7 +64,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
-
     lan.getLan();
     var tm = Provider.of<SettingProvider>(context, listen: true).tm;
     return MaterialApp(
@@ -80,6 +71,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       themeMode: tm,
       darkTheme: ThemeData(
+        fontFamily:  lan.isEn ? 'Exo' : 'FrutigerLTArabic',
           brightness: Brightness.dark,
           primaryColor: Colors.black54,
           accentColor: Colors.black54
@@ -87,6 +79,9 @@ class MyApp extends StatelessWidget {
           /* dark theme settings */
           ),
       theme: ThemeData(
+
+             fontFamily:  lan.isEn ? 'Exo' : 'FrutigerLTArabic',
+
 
           // This is the theme of your application.
           //

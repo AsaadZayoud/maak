@@ -164,7 +164,7 @@ class LocationmapPageBody extends State<LocationmapPage> {
                                           .textTheme
                                           .bodyText1!
                                           .copyWith(
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.bold,fontFamily: 'Exo'),
                                     ),
                                     SizedBox(
                                         height:
