@@ -16,6 +16,7 @@ import 'package:geocoder/model.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:maak/providers/appointmen_provider.dart';
 import 'package:maak/providers/auth_provider.dart';
 import 'package:maak/providers/language_provider.dart';
 import "dart:async";
@@ -193,6 +194,9 @@ class LocationmapPageBody extends State<LocationmapPage> {
                                 // ),
                                 GestureDetector(
                                   onTap: () {
+                                    Provider.of<appointmenProvider>(context,
+                                        listen: false)
+                                        .setaddress(locationTex, _lastMapPosition.latitude, _lastMapPosition.longitude);
                                     Utils.NavigatorKey.currentState!
                                         .pushReplacementNamed("/otp");
                                   },

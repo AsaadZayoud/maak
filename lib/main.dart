@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:maak/providers/appointmen_provider.dart';
 import 'package:maak/providers/auth_provider.dart';
 import 'package:maak/providers/call_us.dart';
 import 'package:maak/providers/language_provider.dart';
+import 'package:maak/providers/payment.dart';
 import 'package:maak/providers/profile_provider.dart';
 import 'package:maak/providers/setting_provider.dart';
 import 'package:maak/screens/about_application.dart';
@@ -50,6 +52,12 @@ void main() async{
       ),
       ChangeNotifierProvider<ProfileProvider>(
         create: (context) => ProfileProvider(),
+      ),
+      ChangeNotifierProvider<appointmenProvider>(
+        create: (context) => appointmenProvider(),
+      ),
+      ChangeNotifierProvider<paymentProvider>(
+        create: (context) => paymentProvider(),
       ),
 
     ],

@@ -11,7 +11,7 @@ class PaymentCard {
   int? cvv;
 
   PaymentCard(
-      {this.type, this.number, this.name, this.month, this.year, this.cvv});
+      { this.type, this.number, this.name, this.month, this.year, this.cvv});
 
   @override
   String toString() {
@@ -173,7 +173,7 @@ class CardUtils {
     Widget? widget;
     if (img.isNotEmpty) {
       widget = new Image.asset(
-        'assets/images/$img',
+        'assets/images/pay/$img',
         width: 40.0,
       );
     } else {

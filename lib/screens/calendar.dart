@@ -5,6 +5,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:location/location.dart';
 import 'package:maak/models/service.dart';
 import 'package:maak/models/service_details.dart';
+import 'package:maak/providers/appointmen_provider.dart';
 import 'package:maak/providers/language_provider.dart';
 import 'package:maak/providers/service_provider.dart';
 import 'package:maak/providers/utils.dart';
@@ -29,7 +30,6 @@ class _CalendarState extends State<Calendar> {
   void initState() {
     _futureAvailable =
         Provider.of<ServiceProvider>(context, listen: false).availableSer();
-
     super.initState();
   }
 
@@ -89,12 +89,10 @@ class _CalendarState extends State<Calendar> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-
             children: [
               TableCalendar(
                 locale: lan.isEn ? 'en' : 'ar',
                 calendarStyle: CalendarStyle(
-
                   canMarkersOverflow: true,
                 ),
                 headerStyle: HeaderStyle(
@@ -127,7 +125,6 @@ class _CalendarState extends State<Calendar> {
                     );
                   },
                   selectedBuilder: (context, date, events) => Container(
-
                       margin: const EdgeInsets.all(4.0),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -138,13 +135,13 @@ class _CalendarState extends State<Calendar> {
                         children: [
                           Text(
                             date.day.toString(),
-                            style: TextStyle(color: Colors.white,fontSize: 12),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           ),
                           Text(
                             DateFormat('EEEE')
                                 .format(_selectedDay)
                                 .substring(0, 3),
-                            style: TextStyle(color: Colors.white,fontSize: 8),
+                            style: TextStyle(color: Colors.white, fontSize: 8),
                           )
                         ],
                       )),
@@ -209,7 +206,6 @@ class _CalendarState extends State<Calendar> {
                   _focusedDay = focusedDay;
                 },
               ),
-            
               Padding(
                 padding: EdgeInsets.all(20),
                 child: Row(
@@ -258,7 +254,10 @@ class _CalendarState extends State<Calendar> {
                                   return GestureDetector(
                                     onTap: () async {
                                       await _getUserLocation();
-
+                                      Provider.of<appointmenProvider>(context,
+                                              listen: false)
+                                          .serviceDetails(
+                                              snapshot.data![index]);
                                       //      Utils.NavigatorKey.currentState!.pushReplacementNamed('/map');
 
                                       Utils.NavigatorKey.currentState!
