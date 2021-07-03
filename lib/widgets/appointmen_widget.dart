@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maak/models/appointment.dart';
 import 'package:maak/models/service_details.dart';
+import 'package:maak/providers/language_provider.dart';
+import 'package:provider/provider.dart';
 
 class appointmenWidget extends StatelessWidget {
   Appointment? appointment ;
@@ -10,7 +12,8 @@ class appointmenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
     showAlertDialog(BuildContext context, int ser) {
       var SizeConfig = MediaQuery.of(context).size;
       // set up the button
@@ -21,8 +24,8 @@ class appointmenWidget extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (ser == 0) Text("Upcoming Appointment"),
-              if (ser == 1) Text("Past Appointment"),
+              if (ser == 0) Text("${lan.getTexts('upcoming_appointment')}"),
+              if (ser == 1) Text("${lan.getTexts('past_appointment')}"),
               IconButton(
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop('dialog');
@@ -34,12 +37,12 @@ class appointmenWidget extends StatelessWidget {
             ],
           ),
           content: Container(
-            height: SizeConfig.height * 0.4,
+              height: SizeConfig.height * 0.6,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Location',
+                  "${lan.getTexts('location')}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1!
@@ -66,15 +69,14 @@ class appointmenWidget extends StatelessWidget {
                             if (ser == 0)
                               ElevatedButton(
                                 style: ButtonStyle(
-                                    fixedSize:
-                                    MaterialStateProperty.all<Size>(Size(25, 20)),
+
                                     shape:
                                     MaterialStateProperty.all<RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(18.0),
                                         ))),
                                 onPressed: () {},
-                                child: Text("Edit"),
+                                child: Text("${lan.getTexts('edit')}"),
                               ),
                           ],
                         ),
@@ -83,7 +85,7 @@ class appointmenWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Service',
+                  "${lan.getTexts('service')}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1!
@@ -100,7 +102,7 @@ class appointmenWidget extends StatelessWidget {
                   height: SizeConfig.height * 0.03,
                 ),
                 Text(
-                  'Date',
+                  "${lan.getTexts('date')}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1!
@@ -117,7 +119,7 @@ class appointmenWidget extends StatelessWidget {
                   height: SizeConfig.height * 0.03,
                 ),
                 Text(
-                  'Time',
+                  "${lan.getTexts('time')}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1!
@@ -237,8 +239,8 @@ class appointmenWidget extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.blue.shade50,
               borderRadius: BorderRadius.circular(13)),
-          width: SizeConfig.width * 0.030,
-          height: SizeConfig.height * 0.30,
+
+          height:isPortrait ?  SizeConfig.height * 0.30 : SizeConfig.width*0.30,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,

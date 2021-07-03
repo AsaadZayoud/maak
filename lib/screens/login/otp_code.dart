@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:maak/providers/auth_provider.dart';
 import 'package:maak/providers/language_provider.dart';
 import 'package:maak/providers/utils.dart';
 import 'package:provider/provider.dart';
@@ -261,6 +262,7 @@ class _OtbCodeState extends State<OtbCode> {
                               numbers = [];
 
                               if (int.parse(numVal) == 123456) {
+                                Provider.of<AuthProvider>(context, listen: false).SetAuth(true);
                                 Utils.NavigatorKey.currentState!
                                     .pushNamed('/payment');
                                 numVal = '';

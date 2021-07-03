@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:maak/models/appointment.dart';
 import 'package:maak/models/service_details.dart';
 import 'package:maak/providers/appointmen_provider.dart';
+import 'package:maak/providers/language_provider.dart';
 import 'package:maak/widgets/appointmen_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,7 @@ class _appointmenScreenState extends State<appointmenScreen>
 
   @override
   Widget build(BuildContext context) {
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
     var SizeConfig = MediaQuery.of(context).size;
     Widget service(int ser) {
 
@@ -79,7 +81,7 @@ class _appointmenScreenState extends State<appointmenScreen>
       child: Column(
         children: [
           Text(
-            "View Your Appointments",
+            "${lan.getTexts('view_your_appointments')}",
             style: Theme.of(context)
                 .textTheme
                 .headline6!
@@ -90,10 +92,10 @@ class _appointmenScreenState extends State<appointmenScreen>
             labelColor: Colors.green,
             tabs: [
               Tab(
-                text: "Upcoming",
+                text: "${lan.getTexts('upcoming')}",
               ),
               Tab(
-                text: "Past",
+                text:  "${lan.getTexts('past')}",
               )
             ],
             controller: _tabController,

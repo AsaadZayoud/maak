@@ -86,6 +86,20 @@ class LanguageProvider with ChangeNotifier {
     , "cardholder_name" : "إسم صاحب البطاقة"
     , "expiry_date" : "تاريخ الانتهاء"
     , "number_behind" : "الرقم خلف البطاقة"
+    ,"view_your_appointments" : "عرض المواعيد الخاصة بك"
+    ,"upcoming" : "القادمة"
+    ,"past" : " السابق"
+    ,"edit" : "تعديل"
+    ,"location" : "الموقع"
+    ,"service" : "الخدمة"
+    ,"date" : "التاريخ"
+    ,"time" : "الوقت"
+    ,"upcoming_appointment" : "الموعد القادم"
+    ,"past_appointment" : "الموعد السابق"
+    ,"request_service" : "طلب الخدمة"
+    ,"field_is_required" : "هذه الخانة مطلوبه"
+    ,"card_is_invalid" : "البطاقة غير صالحة"
+
   };
   Map<String, Object> textsEn = {
     "start": "Get Started",
@@ -169,8 +183,21 @@ class LanguageProvider with ChangeNotifier {
     , "cardholder_name" : "Cardholder name"
     , "expiry_date" : "Expiry Date"
     ,"number_behind" : "Number behind the card"
-  };
+    ,"view_your_appointments" : "View Your Appointments"
+    ,"upcoming" : "Upcoming"
+    ,"past" : "Past"
+    ,"edit" : "Edit"
+    ,"location" : "Location"
+    ,"service" : " Service"
+    ,"date" : "Date"
+    ,"time" : "Time"
+    ,"upcoming_appointment" : "Upcoming Appointment"
+    ,"past_appointment" : "Past Appointment"
+    ,"request_service" : "Request Service"
+    ,"field_is_required" : "This field is required"
+    ,"card_is_invalid" : "Card is invalid"
 
+  };
   changeLan(bool lan) async {
     isEn = lan;
     notifyListeners();

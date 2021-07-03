@@ -1,13 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:http/http.dart' as http;
-
-import 'dart:convert' as convert;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,14 +10,11 @@ import 'package:location/location.dart';
 import 'package:maak/providers/appointmen_provider.dart';
 import 'package:maak/providers/auth_provider.dart';
 import 'package:maak/providers/language_provider.dart';
-import "dart:async";
-import "package:google_maps_webservice/places.dart";
+
 import 'dart:ui' as ui;
 
 import 'package:maak/providers/utils.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
-import 'login/otp.dart';
 
 class LocationmapPage extends StatefulWidget {
   LocationData? locationData;
@@ -198,7 +186,7 @@ class LocationmapPageBody extends State<LocationmapPage> {
                                         listen: false)
                                         .setaddress(locationTex, _lastMapPosition.latitude, _lastMapPosition.longitude);
                                     Utils.NavigatorKey.currentState!
-                                        .pushReplacementNamed("/otp");
+                                        .pushReplacementNamed(isAuth ?  "/payment" :"/otp");
                                   },
                                   child: Container(
                                     child: SvgPicture.asset(
