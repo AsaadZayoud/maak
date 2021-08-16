@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:maak/providers/language_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -8,102 +10,64 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  Widget _buttonText(BuildContext context,String _link, String _text){
-    return TextButton(onPressed: ()=>{}
-    , child: Text(_text,));
-  }
 
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    var lan = Provider.of<LanguageProvider>(context,listen: true);
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('My Profile'),),
+        centerTitle: true,
+        title:  Text('${lan.getTexts('profile')}'),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: deviceSize.height*0.05,),
+         Center(child:  Text('${lan.getTexts('name')} : ${lan.isEn ? 'Asaad' : "اسعد"}',style:Theme.of(context).textTheme.headline6 ,)),
           SizedBox(height: deviceSize.height*0.03,),
-          Container(
-            color: Theme.of(context).accentColor,
-            height: deviceSize.height*0.1,
-             width: deviceSize.width,
-            child: ListTile(
+          Text('${lan.getTexts('age')} : 23',style:Theme.of(context).textTheme.headline6),
+          SizedBox(height: deviceSize.height*0.1,),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${lan.getTexts('choose_your_language')}",
+                style: Theme.of(context).textTheme.headline6,
+                textAlign: TextAlign.center,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("${lan.getTexts('lan_ar')}",
+                      style: Theme.of(context).textTheme.headline6),
+                  Switch(
+                    value: lan.isEn,
+                    onChanged: (newValue) {
+                      Provider.of<LanguageProvider>(context,
+                          listen: false)
+                          .changeLan(newValue);
+                    },
+                  ),
+                  Text("${lan.getTexts('lan_en')}" , style: Theme.of(context).textTheme.headline6),
 
-              leading: CircleAvatar(
-                backgroundImage: Image.asset('assets/images/placeholder.png').image,
-              ) ,
-              title: Text('asaad'),
-              subtitle: Text('Mobile app'),
-            ),
+                ],
+              ),
+            ],
           ),
-          SizedBox(height: deviceSize.height*0.03,),
-          Container(
-            height: deviceSize.height*0.2,
-            color: Theme.of(context).accentColor,
-           child: Padding(
-             padding: const EdgeInsets.all(8.0),
-             child: Column(
-               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
+          SizedBox(height: deviceSize.height*0.1,),
+          MaterialButton(shape:  RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8)),onPressed: (){},child:Text('${lan.getTexts('logout')}',
+            style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),),elevation: 8,color: Colors.green),
+          SizedBox(height: deviceSize.height*0.1,),
+          MaterialButton(shape:  RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8)),onPressed: (){},child:Text('${lan.getTexts('delete_account')}  ',
+            style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),),elevation: 8,color: Colors.red)
 
-                 Text('About Me',style: TextStyle(fontWeight: FontWeight.bold),),
-                 Text('my name asaad '),
-                 Divider(color: Colors.black87,),
-                 Row(
-                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                   children: [
 
-                   IconButton(onPressed: ()=>{}, icon: Icon(Icons.home,size: 40,),
-
-                   ),
-                   IconButton(onPressed: ()=>{}, icon: Icon(Icons.link,size: 40,)
-                   )
-                 ],)
-               ],
-             ),
-           ),
-          ),
-          SizedBox(height: deviceSize.height*0.03,),
-          Container(
-            color: Theme.of(context).accentColor,
-            child: Column(
-              children: [
-                _buttonText(context,'df','Family Members'),
-                Divider(color: Colors.black87,),
-                _buttonText(context,'df','Saved Cards'),
-                Divider(color: Colors.black87,),
-                _buttonText(context,'df','Location'),
-                Divider(color: Colors.black87,),
-                _buttonText(context,'df','Bill History'),
-
-              ],
-            ),
-          )
         ],
       ),
-      bottomNavigationBar:BottomAppBar(
-
-
-        child: Row(
-
-         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-         children: [
-           Container(
-             width: deviceSize.width*0.5,
-             color: Theme.of(context).accentColor,
-             child: TextButton(onPressed: ()=>{}, child: Text('Call For Help',),
-             ),
-           ),
-      Container(
-          width: deviceSize.width*0.5,
-          color: Theme.of(context).bottomAppBarColor
-      ,child: TextButton(onPressed: ()=>{}, child: Text('Call For Help')))
-         ],
-      ),
-      color:Theme.of(context).primaryColor,
-      )
     );
   }
 }

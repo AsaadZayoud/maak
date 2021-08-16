@@ -147,30 +147,7 @@ class _OtpFormState extends State<OtpForm> {
                       ))),
                     ),
                   ),
-                  SizedBox(
-                    height: SizeConfig.height * 0.05,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${lan.getTexts('dont_acc')}",
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                      GestureDetector(
-                      onTap: (){
-                        Utils.NavigatorKey.currentState!.pushReplacementNamed('/account');
-                      }
-                      ,child: Text(
-                          "${lan.getTexts('create_account')}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ],
-                  ),
+
                 ],
               ),
             ),

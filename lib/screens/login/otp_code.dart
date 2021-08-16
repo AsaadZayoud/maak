@@ -6,6 +6,8 @@ import 'package:maak/providers/language_provider.dart';
 import 'package:maak/providers/utils.dart';
 import 'package:provider/provider.dart';
 
+import 'creat_account.dart';
+
 class OtbCode extends StatefulWidget {
   const OtbCode({Key? key}) : super(key: key);
 
@@ -262,9 +264,9 @@ class _OtbCodeState extends State<OtbCode> {
                               numbers = [];
 
                               if (int.parse(numVal) == 123456) {
-                                Provider.of<AuthProvider>(context, listen: false).SetAuth(true);
+
                                 Utils.NavigatorKey.currentState!
-                                    .pushNamed('/payment');
+                                    .pushReplacement(MaterialPageRoute(builder: (contex) => createAccount()));
                                 numVal = '';
                               } else {
                                 _showToast(

@@ -368,8 +368,7 @@ var prov =Provider.of<appointmenProvider>(context, listen: false);
                           SvgPicture.asset(
                             'assets/svg/card.svg',
                           ),
-                          Text(
-                            "${lan.getTexts('credit_card')}",
+                          Text("${lan.getTexts('credit_card')}",
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6!
@@ -414,13 +413,15 @@ var prov =Provider.of<appointmenProvider>(context, listen: false);
               SizedBox(height: SizeConfig.height * 0.04),
               Text(
                 "${lan.getTexts('card_number')}",
-                style: Theme.of(context)
+
+             style: Theme.of(context)
                     .textTheme
                     .bodyText1!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: SizeConfig.height * 0.02),
               TextFormField(
+textDirection: TextDirection.ltr,
                  focusNode: filed1,
                 keyboardType: TextInputType.number,
                 inputFormatters: [
@@ -564,33 +565,7 @@ var prov =Provider.of<appointmenProvider>(context, listen: false);
                   ),
                 ],
               ),
-              SizedBox(height: SizeConfig.height * 0.03),
-              Text("${lan.getTexts('location')}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(fontWeight: FontWeight.bold)),
-              SizedBox(height: SizeConfig.height * 0.03),
-              Container(
 
-                decoration: BoxDecoration(
-
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(15)),
-                width: SizeConfig.width * 0.9,
-                height: SizeConfig.height * 0.16,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(prov.address),
-                    SizedBox(height: SizeConfig.height * 0.01),
-                    Text(
-                      "${prov.lat} , ${prov.lng}",
-                      style: Theme.of(context).textTheme.bodyText1,
-                    )
-                  ],
-                ),
-              ),
               SizedBox(height: SizeConfig.height * 0.03),
         Align(alignment: Alignment.center,
 

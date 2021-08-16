@@ -23,6 +23,7 @@ class LanguageProvider with ChangeNotifier {
     "send_feed": "ارسل رئيك",
     "support": "دعم",
     "faq": "أسئلة مكررة",
+"notifications" : "الاشعارات"  ,
     "privacy_pol": "سياسة خاصة",
     "sign_out": "تسجيل خروج",
     "doctor_evaluation": "تقييم الطبيب:",
@@ -34,24 +35,28 @@ class LanguageProvider with ChangeNotifier {
     "contact_details": "بيانات المتصل",
     "phone": "رقم الهاتف",
     "email": "الايميل",
-    "map": "الخريطة",
+  "profile" :"الملف الشخصي",
+    "data_range" : "نطاق الواعيد",
+  "map": "الخريطة",
     "Book_now": "احجز الآن",
     "price": "السعر",
+    "age": "العمر",
+  "logout" : "تسجيل الخروج",
+    "delete_account" : "حذف الحساب",
     "choose_your_language":"اختر لغتك",
      "home_medical_services" : ": خدمات طبية منزلية",
     "detail_services" : "إن خدمة خدمات طبية منزلية يتم تقديمها لمختلف الأنواع والأشكال من الرعاية سواء كانت للأطفال أو المسنين أو للعلاج الطبيعي أو الرعاية فيما بعد العمليات الجراحية وغيرها من الخدمات"
-    ,"description" : "الوصف"
+    ,"d"
+        "escription" : "الوصف"
     ,"on_boarding3_1" :"الخدمات الطبية المنزلية منها الخدمات الطبية التي تقدم لرعاية الأم والطفل والرعاية هنا تعني رعاية الأم فيما قبل الولادة، والمشورة الصحية والتعليم."
     ,"on_boarding3_2" :"ورعاية المولود الجديد كما يقوموا بمتابعة صحة الطفل من حيث نموه عن طريق رسم النمو ووزنه والرضاعة الطبيعية التي يتلقاها الطفل من الأم والتطعيم وكل هذا في المنزل."
     ,"on_boarding3_3" : "كما يقوموا برعاية المسنين في المنزل، ورعاية ما يقوموا بعمليات جراحية كبيرة، والعلاج الوريدي في المنزل، وإدارة الأمراض المزمنة، وخدمات العلاج الطبيعي في المنزل."
     ,"lan_ar" : "عربي"
      , "lan_en" : "انكليزي"
-    ,    "service" : "الخدمات"
      , "ads" : "الاعلانات"
     ,"next" : "التالي"
     , "login_otp" : "تسجيل Otp"
      ,"send_code" : "ارسال كود"
-    , "phone" : "الهاتف"
     ,"plz_insert" : "من فضلك ادخل الرقم"
     ,"required" : "مطلوب"
     , "code_exp" : "ستنتهي صلاحية هذا الرمز في"
@@ -66,8 +71,7 @@ class LanguageProvider with ChangeNotifier {
     ,"Thx_reg" : "شكرا للتسجيل"
     ,"plz_again" : "من فضلك حاول مرة اخرى"
     ,"login" : "تسجيل دخول"
-    ,"login_det" : '''تسجيل الدخول باستخدام الرقم وكلمة المرور اللذين قمت بإنشائهما
-                       أثناء التسجيل في التطبيق'''
+    ,"login_det" : '''تسجيل عن طريق رقم االهاتف'''
     ,"number" : "الرقم"
     ,"dont_acc" : "ليس لديك حساب ؟"
     ,"create_account" : "انشاء حساب"
@@ -94,6 +98,10 @@ class LanguageProvider with ChangeNotifier {
     ,"service" : "الخدمة"
     ,"date" : "التاريخ"
     ,"time" : "الوقت"
+    ,"reserved":"محجوزة"
+    ,"available": "متاح"
+    ,"fullname_ar" : "الاسم عربي"
+    , "fullname_en" : "الاسم انكليزي"
     ,"upcoming_appointment" : "الموعد القادم"
     ,"past_appointment" : "الموعد السابق"
     ,"request_service" : "طلب الخدمة"
@@ -131,7 +139,14 @@ class LanguageProvider with ChangeNotifier {
     "contact_details": "Contact Details",
     "phone": "Phone",
     "email": "Email",
+    "" : "DATE RANGE",
     "map": "Map",
+    "upcoming":"UPCOMING",
+    "finished":"FINISHED",
+    "profile" : "Profile",
+  "age": "Age",
+  "delete_account" : "Delete Account",
+    "logout" : "Log Out",
     "Book_now": "Book Now",
     "price": "Price",
     "choose_your_language":"Choose your language",
@@ -163,11 +178,13 @@ class LanguageProvider with ChangeNotifier {
     ,"Thx_reg" : "Thanks for login"
     ,"plz_again" : "Please try again"
     ,"login" : "Login"
-    ,"login_det" : '''Login with the number and password you created 
-                      while registering  in the app'''
+    ,"login_det" : '''Login by the phone number'''
     ,"number" : "Number"
         ,"dont_acc": "Don't have an account ? "
     ,"create_account" : "Create account"
+    ,"fullname_ar":"Full Name Ar",
+      "fullname_en" : "Full Name En"
+    ,"notifications" : "Notifications"
     , "create_det" : "Create an account with us using your phone"
     , "full_name" : "Full Name"
     ,"enter_gov" : "Enter Gov Issued ID No."
@@ -184,11 +201,11 @@ class LanguageProvider with ChangeNotifier {
     , "expiry_date" : "Expiry Date"
     ,"number_behind" : "Number behind the card"
     ,"view_your_appointments" : "View Your Appointments"
-    ,"upcoming" : "Upcoming"
     ,"past" : "Past"
     ,"edit" : "Edit"
     ,"location" : "Location"
-    ,"service" : " Service"
+    ,"reserved" : "Reserved"
+    ,"available" : "Available"
     ,"date" : "Date"
     ,"time" : "Time"
     ,"upcoming_appointment" : "Upcoming Appointment"
@@ -207,7 +224,16 @@ class LanguageProvider with ChangeNotifier {
 
   getLan() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    isEn = prefs.getBool("isEn") ?? true;
+    if(prefs.getBool("isEn") == null){
+
+    }
+    else{
+
+      isEn = prefs.getBool("isEn")!;
+    }
+
+
+
     notifyListeners();
   }
 

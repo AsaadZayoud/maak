@@ -111,9 +111,9 @@ class _CalendarState extends State<Calendar> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${DateFormat('MMMM').format(_focusedDay)}${_focusedDay.year}',
+                          '${DateFormat('MMMM',lan.isEn ? 'en' : 'ar').format(_focusedDay)}${_focusedDay.year}',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
+                              fontWeight: FontWeight.bold, fontSize: 15),
                         ),
                         IconButton(
                             onPressed: () {
@@ -138,9 +138,10 @@ class _CalendarState extends State<Calendar> {
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           ),
                           Text(
-                            DateFormat('EEEE')
-                                .format(_selectedDay)
-                                .substring(0, 3),
+                           lan.isEn? DateFormat('EEEE','en')
+                                 .format(_selectedDay)
+                                .substring(0, 3) : DateFormat('EEEE','ar')
+                               .format(_selectedDay),
                             style: TextStyle(color: Colors.white, fontSize: 8),
                           )
                         ],
@@ -181,8 +182,7 @@ class _CalendarState extends State<Calendar> {
                   return isSameDay(_selectedDay, day);
                 },
                 onDaySelected: (selectedDay, focusedDay) {
-                  print(DateFormat.yMMMMd('en_US').format(_selectedDay));
-                  print(DateFormat('hh:mm a').format(_selectedDay));
+
                   if (!isSameDay(_selectedDay, selectedDay)) {
 // Call `setState()` when updating the selected day
 // print('${_selectedDay.toString()}');
@@ -194,6 +194,7 @@ class _CalendarState extends State<Calendar> {
                 },
                 onFormatChanged: (format) {
                   if (_calendarFormat != format) {
+
 // Call `setState()` when updating calendar format
                     setState(() {
                       _calendarFormat = format;
@@ -214,20 +215,22 @@ class _CalendarState extends State<Calendar> {
                     container(
                         color: Colors.green,
                         dayInt: _selectedDay.day,
-                        dayText: DateFormat('EEEE')
+                        dayText: lan.isEn ? DateFormat('EEEE')
                             .format(_selectedDay)
-                            .substring(0, 3)),
+                            .substring(0, 3) : DateFormat('EEEE','ar')
+                            .format(_selectedDay)) ,
                     Text(
-                      'DATE RANGE',
+                      '${lan.getTexts('data_range')}',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     container(
                         color: Colors.grey,
                         dayInt: DateTime.now().day,
-                        dayText: DateFormat('EEEE')
+                        dayText: lan.isEn ? DateFormat('EEEE')
                             .format(DateTime.now())
-                            .substring(0, 3)),
+                            .substring(0, 3) :DateFormat('EEEE','ar')
+                            .format(DateTime.now())  ),
                   ],
                 ),
               ),

@@ -57,9 +57,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 onPressed: () async {
                   Navigator.of(context).pushReplacementNamed(NavHome.routeName);
 
-                  // SharedPreferences prefs =
-                  // await SharedPreferences.getInstance();
-                  // prefs.setBool('watched', true);
+                  SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+                  prefs.setBool('watched', true);
                 },
               ),
             ),

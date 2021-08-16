@@ -9,7 +9,6 @@ import 'package:maak/providers/utils.dart';
 import 'package:provider/provider.dart';
 
 class createAccount extends StatefulWidget {
-  const createAccount({Key? key}) : super(key: key);
 
   @override
   _createAccountState createState() => _createAccountState();
@@ -95,7 +94,7 @@ class _createAccountState extends State<createAccount> {
                       focusNode: filed1,
                       keyboardType: TextInputType.text,
                       decoration: new InputDecoration(
-                        hintText: "${lan.getTexts('full_name')}",
+                        hintText: "${lan.getTexts('fullname_en')}",
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -113,32 +112,7 @@ class _createAccountState extends State<createAccount> {
                     SizedBox(
                       height: SizeConfig.height * 0.04,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(),
-                          width: SizeConfig.width * 0.15,
-                          child: TextFormField(
-                            focusNode: filed2,
-                            autofocus: true,
-                            keyboardType: TextInputType.phone,
-                            decoration: new InputDecoration(
-                              hintText: "+1",
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "* ${lan.getTexts('required')}";
-                              } else
-                                return null;
-                            },
-                            onChanged: (val) => this.number1 = val,
-                            onFieldSubmitted: (val) {
-                              filed3!.requestFocus();
-                            },
-                          ),
-                        ),
-                        Container(
+                    Container(
                           decoration: BoxDecoration(),
                           width: SizeConfig.width * 0.68,
                           child: TextFormField(
@@ -146,7 +120,7 @@ class _createAccountState extends State<createAccount> {
                             autofocus: true,
                             keyboardType: TextInputType.phone,
                             decoration: new InputDecoration(
-                              hintText: "${lan.getTexts('number')}",
+                              hintText: "${lan.getTexts('fullname_ar')}",
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -160,8 +134,7 @@ class _createAccountState extends State<createAccount> {
                             onChanged: (val) => this.number = val,
                           ),
                         ),
-                      ],
-                    ),
+
                     SizedBox(
                       height: SizeConfig.height * 0.04,
                     ),
@@ -265,35 +238,13 @@ class _createAccountState extends State<createAccount> {
                             print("Not Validated");
                           }
                         } : null,
-                        child: Text("Verify Phone & Create an Account"),
+                        child: Text("${lan.getTexts('create_account')}"),
                       ),
                     ),
                     SizedBox(
                       height: SizeConfig.height * 0.04,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${lan.getTexts('already_acc')}",
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Utils.NavigatorKey.currentState!
-                                .pushReplacementNamed('/otp');
-                          },
-                          child: Text(
-                            "${lan.getTexts('login')}",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(
-                                    color: Theme.of(context).primaryColor),
-                          ),
-                        ),
-                      ],
-                    ),
+
                   ],
                 ),
               ),

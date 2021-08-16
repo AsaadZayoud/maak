@@ -32,8 +32,7 @@ class OnBoarding3 extends StatelessWidget {
 
           padding:
           EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: ListView(
             children: [
               Text(
                 "${lan.getTexts('description')}",
