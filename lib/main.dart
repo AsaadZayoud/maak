@@ -21,7 +21,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  final bool setBegin = prefs.getBool('watched') ?? false;
+  bool setBegin =false;
+
+if( prefs.getBool('watched') == null){
+
+}
+else{
+
+  setBegin = prefs.getBool('watched')!;
+
+}
+  print(setBegin);
   Widget homeScreen = setBegin ? NavHome() : OnBoardingScreen();
   runApp(MultiProvider(
     providers: [
@@ -103,7 +113,7 @@ class MyApp extends StatelessWidget {
         const Locale('en', ''), // English
         const Locale('ar', ''), // Arabic
       ],
-      initialRoute: OnBoardingScreen.routeName, // d
+      initialRoute: '/', // d
 
 
  //     navigatorKey: Utils.mainNavigatorKey,

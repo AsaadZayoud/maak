@@ -55,11 +55,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       .copyWith(color: Colors.white),
                 ),
                 onPressed: () async {
-                  Navigator.of(context).pushReplacementNamed(NavHome.routeName);
-
                   SharedPreferences prefs =
                   await SharedPreferences.getInstance();
                   prefs.setBool('watched', true);
+                  Navigator.of(context).pushReplacementNamed(NavHome.routeName);
                 },
               ),
             ),
